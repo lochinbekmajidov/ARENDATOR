@@ -1,0 +1,42 @@
+@model ARENDATOR.Web.ViewModels.BookingCreateViewModel
+@{
+    ViewData["Title"] = "Create Booking";
+}
+
+<section class="content-section">
+    <div class="container narrow-container">
+        <div class="form-card">
+            <h2>Request a rental</h2>
+            <p class="text-muted">@Model.PropertyTitle</p>
+
+            <form asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+                <input asp-for="PropertyId" type="hidden" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="StartDate" class="form-label"></label>
+                        <input asp-for="StartDate" type="date" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="EndDate" class="form-label"></label>
+                        <input asp-for="EndDate" type="date" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="booking-summary mt-4">
+                    <div class="price-row large">
+                        <strong>$@Model.TotalPrice</strong>
+                        <span>for @Model.TotalDays days</span>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary">Submit booking request</button>
+                    <a asp-controller="Properties" asp-action="Details" asp-route-id="@Model.PropertyId" class="btn btn-outline-secondary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

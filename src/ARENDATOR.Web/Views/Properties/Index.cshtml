@@ -1,0 +1,121 @@
+@using ARENDATOR.Web.Localization
+@using ARENDATOR.Web.Models
+@model IEnumerable<ARENDATOR.Web.Models.Property>
+@{
+    ViewData["Title"] = UiText.Get("BrowseAll");
+    var filter = ViewBag.Filter as ARENDATOR.Web.ViewModels.PropertyFilterViewModel ?? new ARENDATOR.Web.ViewModels.PropertyFilterViewModel();
+}
+
+<section class="page-hero compact-hero">
+    <div class="container">
+        <div class="page-hero-content">
+            <span class="eyebrow">@UiText.Get("BrowseRentals")</span>
+            <h1>@UiText.Get("FindYourPerfectProperty")</h1>
+            <p>@UiText.Get("SearchHint")</p>
+        </div>
+    </div>
+</section>
+
+<section class="catalog-shell">
+    <div class="container">
+        <form asp-action="Index" method="get" class="filter-panel">
+            <div class="row g-3 align-items-end">
+                <div class="col-lg-4 col-md-6">
+                    <label class="form-label">@UiText.Get("Search")</label>
+                    <input type="text" name="SearchTerm" value="@filter.SearchTerm" class="form-control" placeholder="@UiText.Get("SearchHint")" />
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <label class="form-label">@UiText.Get("City")</label>
+                    <input type="text" name="City" value="@filter.City" class="form-control" placeholder="@UiText.Get("City")" />
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <label class="form-label">@UiText.Get("Category")</label>
+                    <select name="Category" class="form-select">
+                        <option value="">@UiText.Get("All")</option>
+                        <option value="Car" selected="@(filter.Category == PropertyCategory.Car ? "selected" : null)">@UiText.Get("Cars")</option>
+                        <option value="Apartment" selected="@(filter.Category == PropertyCategory.Apartment ? "selected" : null)">@UiText.Get("Apartments")</option>
+                    </select>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <label class="form-label">@UiText.Get("Status")</label>
+                    <select name="Status" class="form-select">
+                        <option value="">@UiText.Get("All")</option>
+                        <option value="Available" selected="@(filter.Status == PropertyStatus.Available ? "selected" : null)">@UiText.Get("Available")</option>
+                        <option value="Rented" selected="@(filter.Status == PropertyStatus.Rented ? "selected" : null)">@UiText.Get("Rented")</option>
+                        <option value="Maintenance" selected="@(filter.Status == PropertyStatus.Maintenance ? "selected" : null)">@UiText.Get("Maintenance")</option>
+                    </select>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <label class="form-label">@UiText.Get("Sort")</label>
+                    <select name="SortBy" class="form-select">
+                        <option value="PriceDesc" selected="@(filter.SortBy == "PriceDesc" ? "selected" : null)">@UiText.Get("PriceHighLow")</option>
+                        <option value="PriceAsc" selected="@(filter.SortBy == "PriceAsc" ? "selected" : null)">@UiText.Get("PriceLowHigh")</option>
+                        <option value="NameAsc" selected="@(filter.SortBy == "NameAsc" ? "selected" : null)">@UiText.Get("NameAZ")</option>
+                    </select>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
+                <label class="check-inline">
+                    <input type="checkbox" name="OnlyAvailable" value="true" @(filter.OnlyAvailable ? "checked" : null) />
+                    @UiText.Get("AvailableOnlyLabel")
+                </label>
+                <button type="submit" class="btn btn-primary">@UiText.Get("ApplyFilters")</button>
+            </div>
+        </form>
+
+        @if (!Model.Any())
+        {
+            <div class="empty-state">
+                <h3>@UiText.Get("NotFound")</h3>
+            </div>
+        }
+        else
+        {
+            <div class="listing-grid">
+                @foreach (var property in Model)
+                {
+                    var statusClass = property.Status == PropertyStatus.Available ? "status-available" : property.Status == PropertyStatus.Maintenance ? "status-maintenance" : "status-rented";
+                    <article class="listing-card">
+                        <div class="listing-image-wrap">
+                            <img src="@(string.IsNullOrWhiteSpace(property.CoverImageUrl) ? "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80" : property.CoverImageUrl)" alt="@property.Title" />
+                            <span class="status-pill @statusClass">@property.Status</span>
+                        </div>
+                        <div class="listing-body">
+                            <div class="meta-row">
+                                <span class="meta-pill">@property.Category</span>
+                                <span class="meta-pill muted">@property.City</span>
+                            </div>
+                            <h3>@property.Title</h3>
+                            <p class="location-line"><i class="bi bi-geo-alt"></i> @property.Address</p>
+
+                            @if (property.Category == PropertyCategory.Apartment)
+                            {
+                                <div class="facts-row">
+                                    <span><i class="bi bi-bed"></i> @property.Bedrooms bd</span>
+                                    <span><i class="bi bi-bath"></i> @property.Bathrooms ba</span>
+                                    <span><i class="bi bi-arrows-angle-expand"></i> @property.AreaSqMeters m²</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="facts-row">
+                                    <span><i class="bi bi-car-front"></i> @property.Brand @property.Model</span>
+                                    <span><i class="bi bi-people"></i> @property.Seats seats</span>
+                                </div>
+                            }
+
+                            <div class="listing-bottom">
+                                <div class="price-box">
+                                    <span>@UiText.Get("From")</span>
+                                    <strong>$@property.PricePerDay</strong>
+                                    <small>/@UiText.Get("Day")</small>
+                                </div>
+                                <a asp-controller="Properties" asp-action="Details" asp-route-id="@property.Id" class="btn btn-primary">@UiText.Get("ViewDetails")</a>
+                            </div>
+                        </div>
+                    </article>
+                }
+            </div>
+        }
+    </div>
+</section>

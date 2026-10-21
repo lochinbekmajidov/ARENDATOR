@@ -1,0 +1,105 @@
+@using ARENDATOR.Web.Localization
+@model ARENDATOR.Web.Models.Property
+@{
+    ViewData["Title"] = Model.Title;
+    var statusClass = Model.Status == ARENDATOR.Web.Models.PropertyStatus.Available ? "status-available" : Model.Status == ARENDATOR.Web.Models.PropertyStatus.Maintenance ? "status-maintenance" : "status-rented";
+}
+
+<section class="page-hero compact-hero">
+    <div class="container">
+        <div class="page-hero-content">
+            <span class="eyebrow">@UiText.Get("Details")</span>
+            <h1>@Model.Title</h1>
+            <p>@Model.City • @Model.Address</p>
+        </div>
+    </div>
+</section>
+
+<section class="detail-layout">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="detail-gallery">
+                    @if (Model.Images.Any())
+                    {
+                        @foreach (var image in Model.Images)
+                        {
+                            <img src="@image.ImageUrl" alt="@Model.Title" />
+                        }
+                    }
+                    else
+                    {
+                        <img src="@(string.IsNullOrWhiteSpace(Model.CoverImageUrl) ? "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80" : Model.CoverImageUrl)" alt="@Model.Title" />
+                    }
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="detail-card">
+                    <span class="status-pill @statusClass">@Model.Status</span>
+                    <h1>@Model.Title</h1>
+                    <div class="meta-row">
+                        <span class="meta-pill">@Model.Category</span>
+                        <span class="meta-pill muted">@Model.City</span>
+                    </div>
+                    <div class="price-row">
+                        <strong>$@Model.PricePerDay</strong>
+                        <span>/ @UiText.Get("Day")</span>
+                    </div>
+                    <p>@Model.Address, @Model.City, @Model.Country</p>
+
+                    @if (User.Identity?.IsAuthenticated == true && Model.Status == ARENDATOR.Web.Models.PropertyStatus.Available)
+                    {
+                        <a asp-controller="Bookings" asp-action="Create" asp-route-propertyId="@Model.Id" class="btn btn-primary w-100">@UiText.Get("Book")</a>
+                    }
+
+                    <div class="detail-actions">
+                        <a asp-controller="Properties" asp-action="Index" class="btn btn-outline-primary">@UiText.Get("Back")</a>
+                        @if (User.IsInRole("Owner") || User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">@UiText.Get("EditListing")</a>
+                            <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-outline-danger">@UiText.Get("Cancel")</button>
+                            </form>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4 g-4">
+            <div class="col-lg-7">
+                <div class="info-panel">
+                    <h3>@UiText.Get("Description")</h3>
+                    <p>@Model.Description</p>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="info-panel">
+                    <h3>@UiText.Get("PropertyOverview")</h3>
+                    <ul class="detail-list">
+                        @if (Model.Category == ARENDATOR.Web.Models.PropertyCategory.Car)
+                        {
+                            <li><strong>@UiText.Get("Brand"):</strong> @Model.Brand</li>
+                            <li><strong>@UiText.Get("Model"):</strong> @Model.Model</li>
+                            <li><strong>@UiText.Get("Year"):</strong> @Model.Year</li>
+                            <li><strong>@UiText.Get("Transmission"):</strong> @Model.Transmission</li>
+                            <li><strong>@UiText.Get("FuelType"):</strong> @Model.FuelType</li>
+                            <li><strong>@UiText.Get("Guests"):</strong> @Model.Seats</li>
+                        }
+                        else
+                        {
+                            <li><strong>@UiText.Get("Bedrooms"):</strong> @Model.Bedrooms</li>
+                            <li><strong>@UiText.Get("Bathrooms"):</strong> @Model.Bathrooms</li>
+                            <li><strong>@UiText.Get("Area"):</strong> @Model.AreaSqMeters m²</li>
+                            <li><strong>@UiText.Get("Type"):</strong> @Model.ApartmentType</li>
+                            <li><strong>Parking:</strong> @(Model.HasParking == true ? "Yes" : "No")</li>
+                            <li><strong>Pool:</strong> @(Model.HasPool == true ? "Yes" : "No")</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

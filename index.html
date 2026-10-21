@@ -1,0 +1,2191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARENDATOR | Premium Rental Platform</title>
+  <style>
+    :root {
+      --bg-1: #0d1117;
+      --bg-2: #151b2d;
+      --panel: rgba(17, 24, 39, 0.72);
+      --panel-strong: rgba(15, 23, 42, 0.95);
+      --primary: #7c3aed;
+      --primary-2: #22c55e;
+      --secondary: #e2a84a;
+      --text: #edf2ff;
+      --muted: #b9c7df;
+      --line: rgba(255,255,255,0.08);
+      --success: #34d399;
+      --warning: #f59e0b;
+      --danger: #f87171;
+      --shadow: 0 18px 40px rgba(15, 23, 42, 0.45);
+      --radius: 24px;
+      --glass: rgba(255,255,255,0.04);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(124,58,237,0.22), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(34,197,94,0.16), transparent 25%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2));
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+
+    .shell {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 26px 18px 80px;
+    }
+
+    .app-layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 18px;
+      border-radius: 26px;
+      padding: 18px 16px;
+      min-height: calc(100vh - 80px);
+      background: rgba(15,23,42,0.72);
+    }
+
+    .side-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 10px 18px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .side-brand .brand-mark {
+      width: 42px;
+      height: 42px;
+    }
+
+    .side-brand strong {
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .side-nav {
+      display: grid;
+      gap: 10px;
+      margin: 8px 0 18px;
+    }
+
+    .side-nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 12px;
+      border-radius: 12px;
+      color: var(--muted);
+      border: 1px solid transparent;
+      background: rgba(255,255,255,0.02);
+      transition: 0.2s ease;
+    }
+
+    .side-nav a:hover {
+      color: var(--text);
+      border-color: var(--line);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .side-panel {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--line);
+    }
+
+    .side-panel .small-label {
+      display: block;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.72rem;
+      margin-bottom: 10px;
+    }
+
+    .side-panel .value {
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+    }
+
+    .content-column {
+      display: grid;
+      gap: 18px;
+    }
+
+    .glass {
+      background: var(--glass);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 12px;
+      z-index: 50;
+      margin-bottom: 24px;
+      border-radius: 24px;
+      padding: 16px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--primary), #3b82f6);
+      box-shadow: 0 10px 26px rgba(124,58,237,0.45);
+      font-size: 1.2rem;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      color: var(--muted);
+    }
+
+    .nav a {
+      opacity: 0.8;
+      transition: 0.2s ease;
+    }
+
+    .nav a:hover { opacity: 1; color: var(--text); }
+
+    .lang-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+    }
+
+    .lang-wrap select {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.35fr 0.95fr;
+      gap: 28px;
+      margin-bottom: 26px;
+    }
+
+    .hero-copy, .hero-metric {
+      border-radius: var(--radius);
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-copy {
+      background:
+        linear-gradient(135deg, rgba(17,24,39,0.9), rgba(37,99,235,0.18)),
+        radial-gradient(circle at top right, rgba(124,58,237,0.35), transparent 35%);
+      border: 1px solid var(--line);
+      position: relative;
+    }
+
+    .hero-copy::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(255,255,255,0.06), transparent 28%, transparent 72%, rgba(255,255,255,0.04));
+    }
+
+    .eyebrow {
+      padding: 7px 12px;
+      background: rgba(124,58,237,0.12);
+      border: 1px solid rgba(124,58,237,0.25);
+      border-radius: 999px;
+      color: #d8c8ff;
+      display: inline-flex;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    h1, h2, h3, h4, p { margin: 0; }
+
+    .hero h1 {
+      font-size: clamp(2.3rem, 4vw, 4rem);
+      line-height: 1.04;
+      letter-spacing: -0.04em;
+      margin-bottom: 14px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.04rem;
+      line-height: 1.7;
+      max-width: 620px;
+      margin-bottom: 22px;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .feature-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .feature-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .feature-pill strong {
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 14px;
+      padding: 12px 18px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      transition: 0.2s ease;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #3b82f6);
+      color: white;
+      box-shadow: 0 12px 30px rgba(124,58,237,0.35);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .mini-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 14px;
+    }
+
+    .mini-card:hover, .stat-card:hover, .property-card:hover {
+      transform: translateY(-2px);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      border-color: rgba(124,58,237,0.34);
+    }
+
+    .mini-card {
+      padding: 16px 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+    }
+
+    .mini-card h4 {
+      font-size: 1.7rem;
+      margin-bottom: 6px;
+    }
+
+    .mini-card span { color: var(--muted); }
+
+    .hero-metric {
+      background: linear-gradient(180deg, rgba(16,185,129,0.12), rgba(17,24,39,0.32));
+      border: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .metric-surface {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+    }
+
+    .progress-ring {
+      height: 140px;
+      width: 140px;
+      border-radius: 50%;
+      margin: 0 auto 10px;
+      background: conic-gradient(var(--success) 0 68%, rgba(255,255,255,0.08) 68% 100%);
+      display: grid;
+      place-items: center;
+      box-shadow: inset 0 0 18px rgba(0,0,0,0.24);
+    }
+
+    .progress-ring::before {
+      content: "";
+      width: 96px;
+      height: 96px;
+      display: block;
+      border-radius: 50%;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid var(--line);
+    }
+
+    .metric-caption {
+      text-align: center;
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 0.76rem;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 30px 0 18px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.8rem, 2vw, 2.6rem);
+      letter-spacing: -0.04em;
+      margin-top: 10px;
+    }
+
+    .section-head .subtitle {
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1.4fr 0.7fr 0.7fr 0.7fr auto;
+      gap: 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 18px;
+      margin-bottom: 22px;
+    }
+
+    .field { display: flex; flex-direction: column; gap: 8px; }
+    .field label {
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .field input, .field select {
+      border: 1px solid var(--line);
+      background: rgba(15,23,42,0.74);
+      color: var(--text);
+      padding: 12px 14px;
+      border-radius: 12px;
+      outline: none;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      border-radius: 20px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .stat-card .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .stat-card .value {
+      font-size: clamp(1.8rem, 2vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+    }
+
+    .stat-card .trend {
+      margin-top: 10px;
+      color: var(--success);
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .folder-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+      margin-top: 16px;
+    }
+
+    .folder-card {
+      border-radius: 26px;
+      padding: 22px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .folder-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .folder-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(124,58,237,0.18), rgba(59,130,246,0.14));
+      border: 1px solid var(--line);
+      font-size: 1.7rem;
+    }
+
+    .folder-card h3 {
+      font-size: 1.6rem;
+      letter-spacing: -0.04em;
+      margin-bottom: 6px;
+    }
+
+    .folder-card p {
+      color: var(--muted);
+    }
+
+    .folder-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .folder-meta span {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .folder-btn {
+      width: auto;
+      white-space: nowrap;
+    }
+
+    .list-shell {
+      display: none;
+    }
+
+    .list-shell.active {
+      display: block;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 20px;
+    }
+
+    .property-card {
+      border-radius: 24px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .property-image {
+      position: relative;
+      height: 220px;
+      overflow: hidden;
+    }
+
+    .property-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(10px);
+    }
+
+    .badge.available { background: rgba(52,211,153,0.18); color: #b8fce6; }
+    .badge.rented { background: rgba(248,113,113,0.18); color: #ffd2d2; }
+    .badge.maintenance { background: rgba(245,158,11,0.18); color: #ffe2a6; }
+    .badge.occupied { background: rgba(248,113,113,0.18); color: #ffd2d2; }
+
+    .property-body {
+      padding: 18px 18px 20px;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .property-title {
+      font-size: 1.45rem;
+      letter-spacing: -0.04em;
+      margin-bottom: 8px;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+    }
+
+    .meta-pill {
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .price-row {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .price {
+      font-size: 1.8rem;
+      letter-spacing: -0.05em;
+      font-weight: 800;
+    }
+
+    .price-right {
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .card-actions .btn {
+      flex: 1;
+      padding: 11px 12px;
+    }
+
+    .calendar-section {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 20px;
+      margin-top: 32px;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0,1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .calendar-head {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-align: center;
+      padding: 8px 0;
+    }
+
+    .day-cell {
+      min-height: 86px;
+      border-radius: 16px;
+      background: rgba(15,23,42,0.72);
+      border: 1px solid var(--line);
+      padding: 10px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .day-number {
+      font-weight: 700;
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+
+    .day-tag {
+      font-size: 0.72rem;
+      border-radius: 999px;
+      padding: 5px 7px;
+      display: inline-flex;
+      width: fit-content;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .day-tag.available { background: rgba(52,211,153,0.12); color: #b9f8d8; }
+    .day-tag.occupied { background: rgba(248,113,113,0.12); color: #ffd2d2; }
+    .day-tag.maintenance { background: rgba(245,158,11,0.12); color: #ffe1a6; }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(2,6,23,0.68);
+      display: none;
+      place-items: center;
+      z-index: 100;
+      padding: 18px;
+    }
+
+    .modal.active { display: grid; }
+
+    .modal-card {
+      width: min(640px, 100%);
+      border-radius: 28px;
+      background: rgba(15,23,42,0.96);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .modal-header, .modal-body, .modal-footer {
+      padding: 20px 22px;
+    }
+
+    .modal-header {
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .close-btn {
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      border: 1px solid var(--line);
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .modal-body {
+      display: grid;
+      gap: 18px;
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 14px;
+    }
+
+    .booking-summary {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.02);
+      border-radius: 18px;
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--muted);
+    }
+
+    .summary-row strong {
+      color: var(--text);
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    @media (max-width: 1100px) {
+      .hero { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .controls { grid-template-columns: 1fr 1fr 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .topbar { flex-wrap: wrap; }
+      .nav { order: 2; width: 100%; justify-content: center; }
+      .stats-grid, .mini-stats, .grid { grid-template-columns: 1fr; }
+      .controls { grid-template-columns: 1fr; }
+      .row-2 { grid-template-columns: 1fr; }
+      .section-head { flex-direction: column; align-items: flex-start; }
+      .cta-row { flex-direction: column; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="app-layout">
+      <aside class="sidebar glass">
+        <div class="side-brand">
+          <span class="brand-mark">A</span>
+          <strong>ARENDATOR</strong>
+        </div>
+
+        <nav class="side-nav" aria-label="Sidebar navigation">
+          <a href="#dashboard" data-i18n="navDashboard">Dashboard</a>
+          <a href="#fleet" data-i18n="navCars">Cars</a>
+          <a href="#apartments" data-i18n="navApartments">Apartments</a>
+          <a href="#calendar" data-i18n="navCalendar">Calendar</a>
+          <a href="#insights" data-i18n="navInsights">Insights</a>
+        </nav>
+
+        <div class="side-panel">
+          <span class="small-label" data-i18n="overviewLabel">Portfolio overview</span>
+          <div class="value" id="sidebarTotalValue">0</div>
+          <div style="margin-top:8px;color: var(--muted);font-size:0.85rem;" data-i18n="miniTotal">Total listings</div>
+        </div>
+
+        <div class="side-panel">
+          <span class="small-label" data-i18n="languageLabel">Language</span>
+          <div class="lang-wrap" style="margin-top: 8px; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <select id="languageSelect" aria-label="Language selector" style="width: 100%;">
+              <option value="en">English</option>
+              <option value="uz">O‘zbek</option>
+              <option value="tj">Тоҷикӣ</option>
+              <option value="ru">Русский</option>
+            </select>
+          </div>
+        </div>
+      </aside>
+
+      <div class="content-column">
+        <header class="topbar glass">
+          <div class="brand">
+            <span class="brand-mark">A</span>
+            <span>ARENDATOR</span>
+          </div>
+
+          <nav class="nav" aria-label="Main navigation">
+            <a href="#dashboard" data-i18n="navDashboard">Dashboard</a>
+            <a href="#fleet" data-i18n="navCars">Cars</a>
+            <a href="#apartments" data-i18n="navApartments">Apartments</a>
+            <a href="#calendar" data-i18n="navCalendar">Calendar</a>
+            <a href="#insights" data-i18n="navInsights">Insights</a>
+          </nav>
+        </header>
+
+        <main>
+      <section class="hero">
+        <div class="hero-copy glass">
+          <div class="eyebrow" data-i18n="premiumLabel">Premium rental management</div>
+          <h1 data-i18n="heroTitle">Track every car and apartment in one place.</h1>
+          <p data-i18n="heroSubtitle">Manage inventory, statuses, availability, and reminders from a single intelligent dashboard built for premium rental operations.</p>
+
+          <div class="cta-row">
+            <button class="btn btn-primary" data-i18n="ctaPrimary">Add new listing</button>
+            <button class="btn btn-secondary" data-i18n="ctaSecondary">View calendar</button>
+          </div>
+
+          <div class="feature-strip">
+            <div class="feature-pill"><span>✓</span> <strong>32</strong> Active assets</div>
+            <div class="feature-pill"><span>⚡</span> <strong>9</strong> Ready today</div>
+            <div class="feature-pill"><span>⏱</span> <strong>3</strong> Reminders live</div>
+          </div>
+
+          <div class="mini-stats">
+            <div class="mini-card">
+              <h4 id="totalPropertyCount">0</h4>
+              <span data-i18n="miniTotal">Total listings</span>
+            </div>
+            <div class="mini-card">
+              <h4 id="totalAvailableCount">0</h4>
+              <span data-i18n="miniAvailable">Available now</span>
+            </div>
+            <div class="mini-card">
+              <h4 id="totalRevenueCount">$0</h4>
+              <span data-i18n="miniRevenue">Projected daily revenue</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-metric glass">
+          <div class="metric-surface">
+            <div class="progress-ring" id="occupancyRing"></div>
+            <div class="metric-caption" data-i18n="occupancyCaption">Inventory occupancy</div>
+          </div>
+          <div class="mini-card">
+            <div class="top">
+              <span data-i18n="todayPulse">Today’s pulse</span>
+              <span id="pulseBadge">Live</span>
+            </div>
+            <div class="value" id="occupancyPercent">68%</div>
+            <div class="trend">
+              <span>↗</span>
+              <span id="trendText">Stable portfolio</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="dashboard">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow" data-i18n="overviewLabel">Portfolio overview</div>
+            <h2 data-i18n="overviewTitle">Dashboard</h2>
+          </div>
+          <div class="subtitle" data-i18n="overviewNote">Real-time operational view</div>
+        </div>
+
+        <div class="stats-grid" id="statsGrid"></div>
+      </section>
+
+      <section id="foldersView" class="list-shell active">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Portal</div>
+            <h2>Folders</h2>
+          </div>
+        </div>
+
+        <div class="folder-grid">
+          <div class="folder-card glass">
+            <div class="folder-info">
+              <div class="folder-icon">🚗</div>
+              <div>
+                <h3>Cars Folder</h3>
+                <p>20 vehicles listed</p>
+                <div class="folder-meta">
+                  <span>12 Available</span>
+                  <span>8 Occupied</span>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-primary folder-btn" data-action="openFolder" data-folder="cars">Open</button>
+          </div>
+
+          <div class="folder-card glass">
+            <div class="folder-info">
+              <div class="folder-icon">🏠</div>
+              <div>
+                <h3>Apartments Folder</h3>
+                <p>20 properties listed</p>
+                <div class="folder-meta">
+                  <span>14 Available</span>
+                  <span>6 Occupied</span>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-primary folder-btn" data-action="openFolder" data-folder="apartments">Open</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="fleet" class="list-shell" class="list-shell">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow" data-i18n="carsLabel">Fleet</div>
+            <h2 data-i18n="carsTitle">Cars</h2>
+          </div>
+          <div style="display:flex; gap:12px; align-items:center;">
+            <button class="btn btn-secondary" data-action="backToFolders">Back to Folders</button>
+            <button class="btn btn-primary" data-action="addProperty" data-type="car" data-i18n="addCar">Add car</button>
+          </div>
+        </div>
+
+        <div class="controls">
+          <div class="field">
+            <label data-i18n="searchLabel">Search</label>
+            <input id="carSearch" type="text" placeholder="Search by make, model or plate" data-i18n-placeholder="searchPlaceholder" />
+          </div>
+          <div class="field">
+            <label data-i18n="statusLabel">Status</label>
+            <select id="carStatusFilter">
+              <option value="all" data-i18n="allStatus">All</option>
+              <option value="available" data-i18n="statusAvailable">Available</option>
+              <option value="rented" data-i18n="statusRented">Rented</option>
+              <option value="maintenance" data-i18n="statusMaintenance">Under Maintenance</option>
+            </select>
+          </div>
+          <div class="field">
+            <label data-i18n="sortLabel">Sort</label>
+            <select id="carSort">
+              <option value="price-desc" data-i18n="sortPriceHigh">Price: high to low</option>
+              <option value="price-asc" data-i18n="sortPriceLow">Price: low to high</option>
+              <option value="year-desc" data-i18n="sortNewest">Newest</option>
+            </select>
+          </div>
+          <div class="field">
+            <label data-i18n="typeLabel">Type</label>
+            <select id="carTypeFilter">
+              <option value="all" data-i18n="allType">All</option>
+              <option value="car" data-i18n="typeCar">Car</option>
+              <option value="apartment" data-i18n="typeApartment">Apartment</option>
+            </select>
+          </div>
+          <button class="btn btn-secondary" id="resetCars" data-i18n="resetFilters">Reset</button>
+        </div>
+
+        <div class="grid" id="carsGrid"></div>
+      </section>
+
+      <section id="apartments" class="list-shell">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow" data-i18n="apartmentsLabel">Living portfolio</div>
+            <h2 data-i18n="apartmentsTitle">Apartments</h2>
+          </div>
+          <div style="display:flex; gap:12px; align-items:center;">
+            <button class="btn btn-secondary" data-action="backToFolders">Back to Folders</button>
+            <button class="btn btn-primary" data-action="addProperty" data-type="apartment" data-i18n="addApartment">Add apartment</button>
+          </div>
+        </div>
+
+        <div class="controls">
+          <div class="field">
+            <label data-i18n="searchLabel">Search</label>
+            <input id="apartmentSearch" type="text" placeholder="Search by address or title" data-i18n-placeholder="apartmentSearchPlaceholder" />
+          </div>
+          <div class="field">
+            <label data-i18n="statusLabel">Status</label>
+            <select id="apartmentStatusFilter">
+              <option value="all" data-i18n="allStatus">All</option>
+              <option value="available" data-i18n="statusAvailable">Available</option>
+              <option value="occupied" data-i18n="statusOccupied">Occupied</option>
+            </select>
+          </div>
+          <div class="field">
+            <label data-i18n="sortLabel">Sort</label>
+            <select id="apartmentSort">
+              <option value="price-desc" data-i18n="sortPriceHigh">Price: high to low</option>
+              <option value="price-asc" data-i18n="sortPriceLow">Price: low to high</option>
+              <option value="rooms-desc" data-i18n="sortRooms">Rooms: high to low</option>
+            </select>
+          </div>
+          <div class="field">
+            <label data-i18n="roomsLabel">Rooms</label>
+            <select id="apartmentRoomsFilter">
+              <option value="all" data-i18n="allType">All</option>
+              <option value="1">1+</option>
+              <option value="2">2+</option>
+              <option value="3">3+</option>
+              <option value="4">4+</option>
+            </select>
+          </div>
+          <button class="btn btn-secondary" id="resetApartments" data-i18n="resetFilters">Reset</button>
+        </div>
+
+        <div class="grid" id="apartmentsGrid"></div>
+      </section>
+
+      <section id="calendar" class="calendar-section">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow" data-i18n="calendarLabel">Operations</div>
+            <h2 data-i18n="calendarTitle">Availability calendar</h2>
+          </div>
+          <button class="btn btn-primary" data-action="addEvent" data-i18n="addSchedule">Add availability</button>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </section>
+
+      <section id="insights" style="margin-top: 34px;">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow" data-i18n="insightsLabel">Insights</div>
+            <h2 data-i18n="insightsTitle">Portfolio health</h2>
+          </div>
+        </div>
+        <div class="stats-grid" id="insightCards"></div>
+      </section>
+    </main>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="propertyModal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalTitle">Property</h3>
+        <button class="close-btn" id="closeModal" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="row-2">
+          <div class="field">
+            <label data-i18n="propertyKind">Property type</label>
+            <select id="modalType">
+              <option value="car" data-i18n="typeCar">Car</option>
+              <option value="apartment" data-i18n="typeApartment">Apartment</option>
+            </select>
+          </div>
+          <div class="field">
+            <label data-i18n="propertyStatus">Status</label>
+            <select id="modalStatus">
+              <option value="available" data-i18n="statusAvailable">Available</option>
+              <option value="rented" data-i18n="statusRented">Rented</option>
+              <option value="maintenance" data-i18n="statusMaintenance">Under Maintenance</option>
+              <option value="occupied" data-i18n="statusOccupied">Occupied</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row-2">
+          <div class="field">
+            <label id="labelName" data-i18n="fieldTitle">Title</label>
+            <input id="modalName" type="text" />
+          </div>
+          <div class="field">
+            <label data-i18n="fieldPrice">Daily price</label>
+            <input id="modalPrice" type="number" min="0" />
+          </div>
+        </div>
+
+        <div class="row-2">
+          <div class="field">
+            <label id="labelExtraOne" data-i18n="fieldModel">Model</label>
+            <input id="modalExtraOne" type="text" />
+          </div>
+          <div class="field">
+            <label id="labelExtraTwo" data-i18n="fieldLocation">Location</label>
+            <input id="modalExtraTwo" type="text" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-i18n="fieldImage">Image URL</label>
+          <input id="modalImage" type="text" />
+        </div>
+
+        <div class="booking-summary">
+          <div class="summary-row">
+            <span data-i18n="summaryDays">Rental days</span>
+            <strong id="summaryDays">0</strong>
+          </div>
+          <div class="summary-row">
+            <span data-i18n="summaryCost">Total cost</span>
+            <strong id="summaryCost">$0</strong>
+          </div>
+          <div class="row-2">
+            <div class="field">
+              <label data-i18n="startDate">Start date</label>
+              <input id="bookingStart" type="date" />
+            </div>
+            <div class="field">
+              <label data-i18n="endDate">End date</label>
+              <input id="bookingEnd" type="date" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="deletePropertyBtn" data-i18n="deleteButton">Delete</button>
+        <button class="btn btn-primary" id="savePropertyBtn" data-i18n="saveChanges">Save changes</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const translations = {
+      en: {
+        navDashboard: 'Dashboard',
+        navCars: 'Cars',
+        navApartments: 'Apartments',
+        navCalendar: 'Calendar',
+        navInsights: 'Insights',
+        languageLabel: 'Language',
+        premiumLabel: 'Premium rental management',
+        heroTitle: 'Track every car and apartment in one place.',
+        heroSubtitle: 'Manage inventory, statuses, availability, and reminders from a single intelligent dashboard built for premium rental operations.',
+        ctaPrimary: 'Add new listing',
+        ctaSecondary: 'View calendar',
+        miniTotal: 'Total listings',
+        miniAvailable: 'Available now',
+        miniRevenue: 'Projected daily revenue',
+        occupancyCaption: 'Inventory occupancy',
+        todayPulse: 'Today’s pulse',
+        overviewLabel: 'Portfolio overview',
+        overviewTitle: 'Dashboard',
+        overviewNote: 'Real-time operational view',
+        carsLabel: 'Fleet',
+        carsTitle: 'Cars',
+        addCar: 'Add car',
+        apartmentsLabel: 'Living portfolio',
+        apartmentsTitle: 'Apartments',
+        addApartment: 'Add apartment',
+        searchLabel: 'Search',
+        searchPlaceholder: 'Search by make, model or plate',
+        apartmentSearchPlaceholder: 'Search by address or title',
+        statusLabel: 'Status',
+        allStatus: 'All',
+        allType: 'All',
+        sortLabel: 'Sort',
+        sortPriceHigh: 'Price: high to low',
+        sortPriceLow: 'Price: low to high',
+        sortNewest: 'Newest',
+        sortRooms: 'Rooms: high to low',
+        typeLabel: 'Type',
+        typeCar: 'Car',
+        typeApartment: 'Apartment',
+        resetFilters: 'Reset',
+        calendarLabel: 'Operations',
+        calendarTitle: 'Availability calendar',
+        addSchedule: 'Add availability',
+        insightsLabel: 'Insights',
+        insightsTitle: 'Portfolio health',
+        propertyKind: 'Property type',
+        propertyStatus: 'Status',
+        fieldTitle: 'Title',
+        fieldPrice: 'Daily price',
+        fieldModel: 'Model',
+        fieldLocation: 'Location',
+        fieldImage: 'Image URL',
+        summaryDays: 'Rental days',
+        summaryCost: 'Total cost',
+        startDate: 'Start date',
+        endDate: 'End date',
+        deleteButton: 'Delete',
+        saveChanges: 'Save changes',
+        available: 'Available',
+        rented: 'Rented',
+        maintenance: 'Under Maintenance',
+        occupied: 'Occupied',
+        statusAvailable: 'Available',
+        statusRented: 'Rented',
+        statusMaintenance: 'Under Maintenance',
+        statusOccupied: 'Occupied',
+        total: 'Total',
+        inUse: 'In use',
+        underMaintenance: 'Under maintenance',
+        availableNow: 'Available now',
+        rooms: 'rooms',
+        perDay: '/ day',
+        details: 'Details',
+        bookNow: 'Book now',
+        edit: 'Edit',
+        calculate: 'Calculate',
+        monday: 'Mon',
+        tuesday: 'Tue',
+        wednesday: 'Wed',
+        thursday: 'Thu',
+        friday: 'Fri',
+        saturday: 'Sat',
+        sunday: 'Sun',
+        roomsLabel: 'Rooms',
+        dashboardTitle: 'Dashboard',
+        noData: 'No results',
+        car: 'Car',
+        apartment: 'Apartment',
+        locationLabel: 'Location',
+        plate: 'Plate',
+        year: 'Year',
+        vehicle: 'Vehicle',
+        occupancy: 'Occupancy',
+        profit: 'Profit',
+        responseRate: 'Response rate',
+        expiringSoon: 'Expiring soon',
+        reminderText: 'Reminder scheduled',
+        modalNewCar: 'Add new car',
+        modalEditCar: 'Edit car',
+        modalNewApartment: 'Add new apartment',
+        modalEditApartment: 'Edit apartment',
+        missingTitle: 'Please enter a title',
+      },
+      uz: {
+        navDashboard: 'Boshqaruv paneli',
+        navCars: 'Mashinalar',
+        navApartments: 'Kvartiralar',
+        navCalendar: 'Kalendar',
+        navInsights: 'Statistika',
+        languageLabel: 'Til',
+        premiumLabel: 'Premium ijarachilik boshqaruvi',
+        heroTitle: 'Har bir mashina va kvartirani bir joyda kuzatib boring.',
+        heroSubtitle: 'Inventar, holatlar, mavjudlik va eslatmalarni bitta intellektual boshqaruv panelida boshqaring.',
+        ctaPrimary: 'Yangi e’lon qo‘shish',
+        ctaSecondary: 'Kalendarni ko‘rish',
+        miniTotal: 'Jami e’lonlar',
+        miniAvailable: 'Hozir mavjud',
+        miniRevenue: 'Kutilayotgan kundalik daromad',
+        occupancyCaption: 'Inventar bandligi',
+        todayPulse: 'Bugungi holat',
+        overviewLabel: 'Portfel umumiy ko‘rinishi',
+        overviewTitle: 'Boshqaruv paneli',
+        overviewNote: 'Real vaqt operatsion ko‘rinish',
+        carsLabel: 'Park',
+        carsTitle: 'Mashinalar',
+        addCar: 'Mashina qo‘shish',
+        apartmentsLabel: 'Yashash portfeli',
+        apartmentsTitle: 'Kvartiralar',
+        addApartment: 'Kvartira qo‘shish',
+        searchLabel: 'Qidiruv',
+        searchPlaceholder: 'Brend, model yoki davlat raqami bo‘yicha qidiruv',
+        apartmentSearchPlaceholder: 'Manzil yoki nom bo‘yicha qidiruv',
+        statusLabel: 'Holat',
+        allStatus: 'Barchasi',
+        allType: 'Barchasi',
+        sortLabel: 'Saralash',
+        sortPriceHigh: 'Narx: yuqoridan pastga',
+        sortPriceLow: 'Narx: pastdan yuqoriga',
+        sortNewest: 'Yangi birinchi',
+        sortRooms: 'Xonalar: ko‘pdan kamga',
+        typeLabel: 'Turi',
+        typeCar: 'Mashina',
+        typeApartment: 'Kvartira',
+        resetFilters: 'Qayta tiklash',
+        calendarLabel: 'Operatsiyalar',
+        calendarTitle: 'Mavjudlik kalendari',
+        addSchedule: 'Mavjudlik qo‘shish',
+        insightsLabel: 'Statistika',
+        insightsTitle: 'Portfel holati',
+        propertyKind: 'Obyekt turi',
+        propertyStatus: 'Holat',
+        fieldTitle: 'Nomi',
+        fieldPrice: 'Kunlik narx',
+        fieldModel: 'Model',
+        fieldLocation: 'Manzil',
+        fieldImage: 'Rasm URL',
+        summaryDays: 'Ijaralash kunlari',
+        summaryCost: 'Umumiy xarajat',
+        startDate: 'Boshlanish sanasi',
+        endDate: 'Tugash sanasi',
+        deleteButton: 'O‘chirish',
+        saveChanges: 'O‘zgarishlarni saqlash',
+        available: 'Mavjud',
+        rented: 'Ijarada',
+        maintenance: 'Ta’mirlashda',
+        occupied: 'Band',
+        statusAvailable: 'Mavjud',
+        statusRented: 'Ijarada',
+        statusMaintenance: 'Ta’mirlashda',
+        statusOccupied: 'Band',
+        total: 'Jami',
+        inUse: 'Ishlatilmoqda',
+        underMaintenance: 'Ta’mirlashda',
+        availableNow: 'Hozir mavjud',
+        rooms: 'xona',
+        perDay: '/ kun',
+        details: 'Tafsilotlar',
+        bookNow: 'Buyurtma qiling',
+        edit: 'Tahrirlash',
+        calculate: 'Hisoblash',
+        monday: 'Du',
+        tuesday: 'Se',
+        wednesday: 'Ch',
+        thursday: 'Pa',
+        friday: 'Ju',
+        saturday: 'Sha',
+        sunday: 'Ya',
+        roomsLabel: 'Xonalar',
+        dashboardTitle: 'Boshqaruv paneli',
+        noData: 'Natija yo‘q',
+        car: 'Mashina',
+        apartment: 'Kvartira',
+        locationLabel: 'Manzil',
+        plate: 'Davlat raqami',
+        year: 'Yil',
+        vehicle: 'Transport',
+        occupancy: 'Bandlik',
+        profit: 'Daromad',
+        responseRate: 'Javob berish tezligi',
+        expiringSoon: 'Tez orada tugaydi',
+        reminderText: 'Eslatma tayyor',
+        modalNewCar: 'Yangi mashina',
+        modalEditCar: 'Mashinani tahrirlash',
+        modalNewApartment: 'Yangi kvartira',
+        modalEditApartment: 'Kvartirani tahrirlash',
+        missingTitle: 'Iltimos, nom kiriting',
+      },
+      tj: {
+        navDashboard: 'Панели идоракунанда',
+        navCars: 'Мошинҳо',
+        navApartments: 'Квартирҳо',
+        navCalendar: 'Тақвим',
+        navInsights: 'Маълумоти умумӣ',
+        languageLabel: 'Забон',
+        premiumLabel: 'Идоракунии премиумии иҷора',
+        heroTitle: 'Ҳар як мошин ва квартираро дар як ҷой пайгирӣ кунед.',
+        heroSubtitle: 'Инвентар, ҳолатҳо, дастрасӣ ва ёдбудиҳоро дар панели ягонаи интеллектуалӣ идора кунед.',
+        ctaPrimary: 'Иловаи эъломияи нав',
+        ctaSecondary: 'Дидани тақвим',
+        miniTotal: 'Ҳамагӣ эъломияҳо',
+        miniAvailable: 'Ҳозир дастрас',
+        miniRevenue: 'Даромади ҳаррӯзаи пешбинишуда',
+        occupancyCaption: 'Фаъолияти инвентар',
+        todayPulse: 'Ҳолати имрӯз',
+        overviewLabel: 'Намуди умумии портфель',
+        overviewTitle: 'Панели идоракунӣ',
+        overviewNote: 'Намуди амалии вақти воқеӣ',
+        carsLabel: 'Флот',
+        carsTitle: 'Мошинҳо',
+        addCar: 'Иловаи мошин',
+        apartmentsLabel: 'Портфели зиндагӣ',
+        apartmentsTitle: 'Квартирҳо',
+        addApartment: 'Иловаи квартира',
+        searchLabel: 'Ҷустуҷӯ',
+        searchPlaceholder: 'Аз рӯи бренд, модел ё рақами мошин ҷустуҷӯ кунед',
+        apartmentSearchPlaceholder: 'Аз рӯи суроға ё ном ҷустуҷӯ кунед',
+        statusLabel: 'Ҳолат',
+        allStatus: 'Ҳама',
+        allType: 'Ҳама',
+        sortLabel: 'Тартиб',
+        sortPriceHigh: 'Нарх: калонтар ба хурдтар',
+        sortPriceLow: 'Нарх: хурдтар ба калонтар',
+        sortNewest: 'Навтарин',
+        sortRooms: 'Хонаҳо: зиёд ба кам',
+        typeLabel: 'Навъ',
+        typeCar: 'Мошин',
+        typeApartment: 'Квартира',
+        resetFilters: 'Тозакунӣ',
+        calendarLabel: 'Фаъолият',
+        calendarTitle: 'Тақвими дастрасӣ',
+        addSchedule: 'Иловаи дастрасӣ',
+        insightsLabel: 'Маҳфил',
+        insightsTitle: 'Солими портфель',
+        propertyKind: 'Навъи объект',
+        propertyStatus: 'Ҳолат',
+        fieldTitle: 'Ном',
+        fieldPrice: 'Нархи ҳар рӯз',
+        fieldModel: 'Модел',
+        fieldLocation: 'Ҷойгиршавӣ',
+        fieldImage: 'Суроғаи тасвир',
+        summaryDays: 'Рӯзҳои иҷора',
+        summaryCost: 'Ҳамагӣ хароҷот',
+        startDate: 'Санаи оғоз',
+        endDate: 'Санаи хотима',
+        deleteButton: 'Нест кардан',
+        saveChanges: 'Захира кардани тағйирот',
+        available: 'Дастрас',
+        rented: 'Иҷорашуда',
+        maintenance: 'Таҳрирот',
+        occupied: 'Пурра',
+        statusAvailable: 'Дастрас',
+        statusRented: 'Иҷорашуда',
+        statusMaintenance: 'Таҳрирот',
+        statusOccupied: 'Пурра',
+        total: 'Ҳамагӣ',
+        inUse: 'Истифода мешавад',
+        underMaintenance: 'Таҳрирот',
+        availableNow: 'Ҳозир дастрас',
+        rooms: 'хона',
+        perDay: '/ рӯз',
+        details: 'Маълумоти муфассал',
+        bookNow: 'Брон кардан',
+        edit: 'Таҳрир',
+        calculate: 'Ҳисоб кардан',
+        monday: 'Дш',
+        tuesday: 'Сш',
+        wednesday: 'Чш',
+        thursday: 'Пш',
+        friday: 'Ҷм',
+        saturday: 'Шн',
+        sunday: 'Яш',
+        roomsLabel: 'Хонаҳо',
+        dashboardTitle: 'Панели идоракунӣ',
+        noData: 'Натиҷа нест',
+        car: 'Мошин',
+        apartment: 'Квартира',
+        locationLabel: 'Ҷойгиршавӣ',
+        plate: 'Рақами мошин',
+        year: 'Сол',
+        vehicle: 'Нақлиёт',
+        occupancy: 'Пурра',
+        profit: 'Даромад',
+        responseRate: 'Тарзи ҷавоб',
+        expiringSoon: 'Ба наздикӣ ба охир мерасад',
+        reminderText: 'Ёдбудӣ тайёр',
+        modalNewCar: 'Мошини нав',
+        modalEditCar: 'Таҳрири мошин',
+        modalNewApartment: 'Квартираи нав',
+        modalEditApartment: 'Таҳрири квартира',
+        missingTitle: 'Лутфан номро ворид кунед',
+      },
+      ru: {
+        navDashboard: 'Панель',
+        navCars: 'Автомобили',
+        navApartments: 'Квартиры',
+        navCalendar: 'Календарь',
+        navInsights: 'Аналитика',
+        languageLabel: 'Язык',
+        premiumLabel: 'Премиальное управление арендой',
+        heroTitle: 'Отслеживайте каждый автомобиль и квартиру в одном месте.',
+        heroSubtitle: 'Управляйте инвентарём, статусами, доступностью и напоминаниями из единой интеллектуальной панели.',
+        ctaPrimary: 'Добавить объект',
+        ctaSecondary: 'Посмотреть календарь',
+        miniTotal: 'Всего объектов',
+        miniAvailable: 'Доступно сейчас',
+        miniRevenue: 'Прогнозируемый дневной доход',
+        occupancyCaption: 'Занятость инвентаря',
+        todayPulse: 'Пульс сегодня',
+        overviewLabel: 'Обзор портфеля',
+        overviewTitle: 'Панель управления',
+        overviewNote: 'Оперативный вид в реальном времени',
+        carsLabel: 'Парк',
+        carsTitle: 'Автомобили',
+        addCar: 'Добавить автомобиль',
+        apartmentsLabel: 'Жилой портфель',
+        apartmentsTitle: 'Квартиры',
+        addApartment: 'Добавить квартиру',
+        searchLabel: 'Поиск',
+        searchPlaceholder: 'Поиск по марке, модели или номеру',
+        apartmentSearchPlaceholder: 'Поиск по адресу или названию',
+        statusLabel: 'Статус',
+        allStatus: 'Все',
+        allType: 'Все',
+        sortLabel: 'Сортировка',
+        sortPriceHigh: 'Цена: от высокой к низкой',
+        sortPriceLow: 'Цена: от низкой к высокой',
+        sortNewest: 'Сначала новые',
+        sortRooms: 'Комнаты: от многих к меньшим',
+        typeLabel: 'Тип',
+        typeCar: 'Автомобиль',
+        typeApartment: 'Квартира',
+        resetFilters: 'Сброс',
+        calendarLabel: 'Операции',
+        calendarTitle: 'Календарь доступности',
+        addSchedule: 'Добавить доступность',
+        insightsLabel: 'Аналитика',
+        insightsTitle: 'Состояние портфеля',
+        propertyKind: 'Тип объекта',
+        propertyStatus: 'Статус',
+        fieldTitle: 'Название',
+        fieldPrice: 'Цена за день',
+        fieldModel: 'Модель',
+        fieldLocation: 'Местоположение',
+        fieldImage: 'URL изображения',
+        summaryDays: 'Дни аренды',
+        summaryCost: 'Общая стоимость',
+        startDate: 'Дата начала',
+        endDate: 'Дата окончания',
+        deleteButton: 'Удалить',
+        saveChanges: 'Сохранить изменения',
+        available: 'Доступно',
+        rented: 'В аренде',
+        maintenance: 'На обслуживании',
+        occupied: 'Занято',
+        statusAvailable: 'Доступно',
+        statusRented: 'В аренде',
+        statusMaintenance: 'На обслуживании',
+        statusOccupied: 'Занято',
+        total: 'Всего',
+        inUse: 'Используется',
+        underMaintenance: 'На обслуживании',
+        availableNow: 'Доступно сейчас',
+        rooms: 'комнаты',
+        perDay: '/ день',
+        details: 'Детали',
+        bookNow: 'Забронировать',
+        edit: 'Редактировать',
+        calculate: 'Рассчитать',
+        monday: 'Пн',
+        tuesday: 'Вт',
+        wednesday: 'Ср',
+        thursday: 'Чт',
+        friday: 'Пт',
+        saturday: 'Сб',
+        sunday: 'Вс',
+        roomsLabel: 'Комнаты',
+        dashboardTitle: 'Панель управления',
+        noData: 'Нет результатов',
+        car: 'Автомобиль',
+        apartment: 'Квартира',
+        locationLabel: 'Местоположение',
+        plate: 'Номер',
+        year: 'Год',
+        vehicle: 'Транспорт',
+        occupancy: 'Занятость',
+        profit: 'Доход',
+        responseRate: 'Скорость ответа',
+        expiringSoon: 'Скоро заканчивается',
+        reminderText: 'Напоминание создано',
+        modalNewCar: 'Добавить автомобиль',
+        modalEditCar: 'Редактировать автомобиль',
+        modalNewApartment: 'Добавить квартиру',
+        modalEditApartment: 'Редактировать квартиру',
+        missingTitle: 'Пожалуйста, введите название',
+      }
+    };
+
+    const state = {
+      lang: localStorage.getItem('arendator-lang') || 'en',
+      cars: [
+        { id: 'c1', type: 'car', title: 'BMW X5', make: 'BMW', model: 'X5', year: 2024, plate: 'A123AAA', price: 180, status: 'available', image: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=900&q=80' },
+        { id: 'c2', type: 'car', title: 'Mercedes C-Class', make: 'Mercedes', model: 'C-Class', year: 2023, plate: 'B456BBB', price: 160, status: 'rented', image: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=900&q=80' },
+        { id: 'c3', type: 'car', title: 'Audi Q7', make: 'Audi', model: 'Q7', year: 2022, plate: 'C789CCC', price: 155, status: 'maintenance', image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=80' },
+        { id: 'c4', type: 'car', title: 'Porsche Cayenne', make: 'Porsche', model: 'Cayenne', year: 2024, plate: 'D101DDD', price: 240, status: 'available', image: 'https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=900&q=80' },
+        { id: 'c5', type: 'car', title: 'Tesla Model 3', make: 'Tesla', model: 'Model 3', year: 2024, plate: 'E202EEE', price: 210, status: 'available', image: 'https://images.unsplash.com/photo-1560958089-b8a1d90d1b1c?auto=format&fit=crop&w=900&q=80' },
+        { id: 'c6', type: 'car', title: 'Range Rover Sport', make: 'Range Rover', model: 'Sport', year: 2023, plate: 'F303FFF', price: 225, status: 'rented', image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=900&q=80' },
+        { id: 'c7', type: 'car', title: 'Volkswagen Touareg', make: 'Volkswagen', model: 'Touareg', year: 2022, plate: 'G404GGG', price: 150, status: 'available', image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=900&q=80' },
+        { id: 'c8', type: 'car', title: 'Lexus RX', make: 'Lexus', model: 'RX', year: 2024, plate: 'H505HHH', price: 190, status: 'available', image: 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=900&q=80' },
+        { id: 'c9', type: 'car', title: 'Toyota Camry', make: 'Toyota', model: 'Camry', year: 2021, plate: 'J606JJJ', price: 120, status: 'rented', image: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=900&q=80' },
+        { id: 'c10', type: 'car', title: 'Honda CR-V', make: 'Honda', model: 'CR-V', year: 2022, plate: 'K707KKK', price: 130, status: 'maintenance', image: 'https://images.unsplash.com/photo-1552519507-88aa2dfa9fdb?auto=format&fit=crop&w=900&q=80' },
+        { id: 'c11', type: 'car', title: 'Ford Explorer', make: 'Ford', model: 'Explorer', year: 2023, plate: 'L808LLL', price: 170, status: 'available', image: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=900&q=80' },
+        { id: 'c12', type: 'car', title: 'Chevrolet Malibu', make: 'Chevrolet', model: 'Malibu', year: 2020, plate: 'M909MMM', price: 110, status: 'available', image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=900&q=80' },
+        { id: 'c13', type: 'car', title: 'Hyundai Tucson', make: 'Hyundai', model: 'Tucson', year: 2024, plate: 'N010NNN', price: 145, status: 'rented', image: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=900&q=80' },
+        { id: 'c14', type: 'car', title: 'Nissan X-Trail', make: 'Nissan', model: 'X-Trail', year: 2022, plate: 'O111OOO', price: 132, status: 'available', image: 'https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=900&q=80' },
+        { id: 'c15', type: 'car', title: 'Subaru Outback', make: 'Subaru', model: 'Outback', year: 2021, plate: 'P222PPP', price: 128, status: 'available', image: 'https://images.unsplash.com/photo-1494905998402-395d579af36f?auto=format&fit=crop&w=900&q=80' },
+        { id: 'c16', type: 'car', title: 'Kia Sorento', make: 'Kia', model: 'Sorento', year: 2023, plate: 'Q333QQQ', price: 140, status: 'maintenance', image: 'https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=900&q=80' },
+        { id: 'c17', type: 'car', title: 'Mini Countryman', make: 'Mini', model: 'Countryman', year: 2024, plate: 'R444RRR', price: 165, status: 'available', image: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=900&q=80' },
+        { id: 'c18', type: 'car', title: 'BMW 3 Series', make: 'BMW', model: '3 Series', year: 2022, plate: 'S555SSS', price: 175, status: 'rented', image: 'https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=900&q=80' },
+        { id: 'c19', type: 'car', title: 'Mazda CX-5', make: 'Mazda', model: 'CX-5', year: 2023, plate: 'T666TTT', price: 148, status: 'available', image: 'https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=900&q=80' },
+        { id: 'c20', type: 'car', title: 'Mercedes GLC', make: 'Mercedes', model: 'GLC', year: 2024, plate: 'U777UUU', price: 200, status: 'available', image: 'https://images.unsplash.com/photo-1523983388277-336a8481f9f8?auto=format&fit=crop&w=900&q=80' }
+      ],
+      apartments: [
+        { id: 'a1', type: 'apartment', title: 'Skyline Loft', address: 'Tashkent, Amir Temur Avenue 18', rooms: 2, price: 120, status: 'available', image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80' },
+        { id: 'a2', type: 'apartment', title: 'Garden Residence', address: 'Samarkand, Zarafshan Street 42', rooms: 3, price: 170, status: 'occupied', image: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=900&q=80' },
+        { id: 'a3', type: 'apartment', title: 'Downtown Studio', address: 'Bukhara, Navoi Street 7', rooms: 1, price: 90, status: 'available', image: 'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80' },
+        { id: 'a4', type: 'apartment', title: 'City View', address: 'Tashkent, Yunusobod 11', rooms: 2, price: 135, status: 'available', image: 'https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=900&q=80' },
+        { id: 'a5', type: 'apartment', title: 'Golden Terrace', address: 'Fergana, Pushkin 10', rooms: 3, price: 180, status: 'occupied', image: 'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80' },
+        { id: 'a6', type: 'apartment', title: 'Sunset Villa', address: 'Khiva, Ichan Kala 2', rooms: 4, price: 220, status: 'available', image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=900&q=80' },
+        { id: 'a7', type: 'apartment', title: 'Old Town Suite', address: 'Bukhara, Registan 5', rooms: 2, price: 110, status: 'available', image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80' },
+        { id: 'a8', type: 'apartment', title: 'Green Court', address: 'Namangan, Islom Karimov 20', rooms: 3, price: 145, status: 'occupied', image: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=900&q=80' },
+        { id: 'a9', type: 'apartment', title: 'Harbor House', address: 'Andijan, Navoi 6', rooms: 2, price: 125, status: 'available', image: 'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80' },
+        { id: 'a10', type: 'apartment', title: 'Olive Heights', address: 'Tashkent, Chilonzor 12', rooms: 4, price: 210, status: 'available', image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=900&q=80' },
+        { id: 'a11', type: 'apartment', title: 'Modern Nest', address: 'Samarqand, Gagarin 8', rooms: 1, price: 95, status: 'occupied', image: 'https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=900&q=80' },
+        { id: 'a12', type: 'apartment', title: 'Royal Residence', address: 'Tashkent, Buyuk Ipak Yo‘li 31', rooms: 5, price: 260, status: 'available', image: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=900&q=80' },
+        { id: 'a13', type: 'apartment', title: 'Light Avenue', address: 'Jizzakh, Makhmud 4', rooms: 2, price: 118, status: 'available', image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80' },
+        { id: 'a14', type: 'apartment', title: 'Hillside Flat', address: 'Karshi, Bobur 9', rooms: 3, price: 155, status: 'occupied', image: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=900&q=80' },
+        { id: 'a15', type: 'apartment', title: 'Palm House', address: 'Tashkent, Yakkasaroy 15', rooms: 2, price: 130, status: 'available', image: 'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80' },
+        { id: 'a16', type: 'apartment', title: 'Cedar Suites', address: 'Nukus, Gafur Gulom 12', rooms: 4, price: 200, status: 'available', image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=900&q=80' },
+        { id: 'a17', type: 'apartment', title: 'Lakeside Living', address: 'Urgench, Alisher Navoi 7', rooms: 2, price: 128, status: 'occupied', image: 'https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=900&q=80' },
+        { id: 'a18', type: 'apartment', title: 'Serenity Place', address: 'Shahrisabz, Amir Temur 25', rooms: 3, price: 175, status: 'available', image: 'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80' },
+        { id: 'a19', type: 'apartment', title: 'Metro Residence', address: 'Tashkent, Mirzo Ulugbek 18', rooms: 1, price: 96, status: 'available', image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80' },
+        { id: 'a20', type: 'apartment', title: 'Grand Horizon', address: 'Tashkent, Mirobod 22', rooms: 3, price: 190, status: 'occupied', image: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=900&q=80' }
+      ],
+      filters: {
+        car: { search: '', status: 'all', sort: 'price-desc' },
+        apartment: { search: '', status: 'all', sort: 'price-desc', rooms: 'all' }
+      }
+    };
+
+    const app = {
+      closeModal() {
+        document.getElementById('propertyModal').classList.remove('active');
+      },
+      openModal(type, item = null) {
+        const modal = document.getElementById('propertyModal');
+        const isEditing = !!item;
+        const listType = type || item?.type || 'car';
+        const title = isEditing ? (listType === 'car' ? t('modalEditCar') : t('modalEditApartment')) : (listType === 'car' ? t('modalNewCar') : t('modalNewApartment'));
+        document.getElementById('modalTitle').textContent = title;
+
+        const statusSelect = document.getElementById('modalStatus');
+        const typeSelect = document.getElementById('modalType');
+        const nameInput = document.getElementById('modalName');
+        const priceInput = document.getElementById('modalPrice');
+        const extraOne = document.getElementById('modalExtraOne');
+        const extraTwo = document.getElementById('modalExtraTwo');
+        const imageInput = document.getElementById('modalImage');
+        const bookingStart = document.getElementById('bookingStart');
+        const bookingEnd = document.getElementById('bookingEnd');
+
+        typeSelect.value = listType;
+        if (listType === 'car') {
+          document.getElementById('labelName').textContent = t('fieldTitle');
+          document.getElementById('labelExtraOne').textContent = t('fieldModel');
+          document.getElementById('labelExtraTwo').textContent = t('plate');
+        } else {
+          document.getElementById('labelName').textContent = t('fieldTitle');
+          document.getElementById('labelExtraOne').textContent = t('roomsLabel');
+          document.getElementById('labelExtraTwo').textContent = t('fieldLocation');
+        }
+
+        if (item) {
+          statusSelect.value = item.status;
+          nameInput.value = item.title;
+          priceInput.value = item.price || 0;
+          extraOne.value = item.model || item.rooms || '';
+          extraTwo.value = item.address || item.plate || '';
+          imageInput.value = item.image || '';
+          statusSelect.disabled = false;
+        } else {
+          statusSelect.value = 'available';
+          nameInput.value = '';
+          priceInput.value = '';
+          extraOne.value = '';
+          extraTwo.value = '';
+          imageInput.value = 'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80';
+          statusSelect.disabled = false;
+        }
+
+        const today = new Date();
+        const start = new Date(today);
+        const end = new Date(today);
+        end.setDate(end.getDate() + 3);
+        bookingStart.value = toDateInputValue(start);
+        bookingEnd.value = toDateInputValue(end);
+
+        modal.dataset.editingId = item ? item.id : '';
+        modal.dataset.type = listType;
+        modal.classList.add('active');
+        updateBookingSummary();
+      },
+      addEvent() {
+        const now = new Date();
+        const setDate = (d, offset) => {
+          const copy = new Date(d);
+          copy.setDate(copy.getDate() + offset);
+          return copy;
+        };
+        const start = setDate(now, 2);
+        const end = setDate(now, 5);
+        const title = `Availability block - ${start.toDateString()}`;
+        console.log('Added schedule', title, start, end);
+        alert(t('reminderText'));
+      }
+    };
+
+    function t(key) {
+      const current = translations[state.lang] || translations.en;
+      return current[key] || translations.en[key] || key;
+    }
+
+    function formatCurrency(value) {
+      return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value || 0);
+    }
+
+    function toDateInputValue(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function getFilteredCars() {
+      const search = state.filters.car.search.toLowerCase();
+      const status = state.filters.car.status;
+      const sort = state.filters.car.sort;
+
+      let items = [...state.cars].filter(item => {
+        const matchesSearch = !search || [item.title, item.make, item.model, item.plate].join(' ').toLowerCase().includes(search);
+        const matchesStatus = status === 'all' || item.status === status;
+        return matchesSearch && matchesStatus;
+      });
+
+      if (sort === 'price-desc') items.sort((a, b) => b.price - a.price);
+      if (sort === 'price-asc') items.sort((a, b) => a.price - b.price);
+      if (sort === 'year-desc') items.sort((a, b) => b.year - a.year);
+
+      return items;
+    }
+
+    function getFilteredApartments() {
+      const search = state.filters.apartment.search.toLowerCase();
+      const status = state.filters.apartment.status;
+      const rooms = state.filters.apartment.rooms;
+      const sort = state.filters.apartment.sort;
+
+      let items = [...state.apartments].filter(item => {
+        const matchesSearch = !search || [item.title, item.address].join(' ').toLowerCase().includes(search);
+        const matchesStatus = status === 'all' || item.status === status;
+        const matchesRooms = rooms === 'all' || Number(item.rooms) >= Number(rooms);
+        return matchesSearch && matchesStatus && matchesRooms;
+      });
+
+      if (sort === 'price-desc') items.sort((a, b) => b.price - a.price);
+      if (sort === 'price-asc') items.sort((a, b) => a.price - b.price);
+      if (sort === 'rooms-desc') items.sort((a, b) => b.rooms - a.rooms);
+
+      return items;
+    }
+
+    function getTotalStats() {
+      const cars = state.cars.length;
+      const apartments = state.apartments.length;
+      const available = [...state.cars, ...state.apartments].filter(item => item.status === 'available').length;
+      const rented = [...state.cars, ...state.apartments].filter(item => item.status === 'rented' || item.status === 'occupied').length;
+      const maintenance = [...state.cars].filter(item => item.status === 'maintenance').length;
+      const totalRevenue = [...state.cars, ...state.apartments].reduce((sum, item) => sum + Number(item.price || 0), 0);
+      return { cars, apartments, available, rented, maintenance, totalRevenue };
+    }
+
+    function renderStats() {
+      const stats = getTotalStats();
+      const cards = [
+        { label: t('total'), value: stats.cars + stats.apartments, tone: '#7c3aed' },
+        { label: t('availableNow'), value: stats.available, tone: '#34d399' },
+        { label: t('inUse'), value: stats.rented, tone: '#f59e0b' },
+        { label: t('underMaintenance'), value: stats.maintenance, tone: '#f87171' }
+      ];
+
+      const grid = document.getElementById('statsGrid');
+      grid.innerHTML = cards.map((card, index) => `
+        <div class="stat-card glass">
+          <div class="top"><span>${card.label}</span><span style="color:${card.tone};">●</span></div>
+          <div class="value">${card.value}</div>
+          <div class="trend"><span>↗</span><span>${index === 0 ? 'Portfolio total' : 'Current status'}</span></div>
+        </div>
+      `).join('');
+
+      document.getElementById('totalPropertyCount').textContent = (stats.cars + stats.apartments).toString();
+      document.getElementById('totalAvailableCount').textContent = stats.available.toString();
+      document.getElementById('totalRevenueCount').textContent = formatCurrency(stats.totalRevenue);
+
+      const occupancy = Math.round(((stats.available + stats.rented) / (stats.cars + stats.apartments + 1)) * 100);
+      document.getElementById('occupancyPercent').textContent = `${Math.max(20, occupancy)}%`;
+      document.getElementById('occupancyRing').style.background = `conic-gradient(var(--success) 0 ${Math.max(20, occupancy)}%, rgba(255,255,255,0.08) ${Math.max(20, occupancy)}% 100%)`;
+      document.getElementById('trendText').textContent = t('responseRate');
+    }
+
+    function renderCars() {
+      const list = getFilteredCars();
+      const grid = document.getElementById('carsGrid');
+      grid.innerHTML = list.length ? list.map(item => `
+        <article class="property-card">
+          <div class="property-image">
+            <img src="${item.image}" alt="${item.title}" />
+            <span class="badge ${item.status}">${t(item.status)}</span>
+          </div>
+          <div class="property-body">
+            <div class="card-top">
+              <span>${item.make}</span>
+              <span>${item.year}</span>
+            </div>
+            <h3 class="property-title">${item.title}</h3>
+            <div class="meta-row">
+              <span class="meta-pill">${item.model}</span>
+              <span class="meta-pill">${item.plate}</span>
+            </div>
+            <div class="price-row">
+              <div>
+                <div class="price">${formatCurrency(item.price)}</div>
+                <div class="price-right">${t('perDay')}</div>
+              </div>
+              <div class="price-right">${t(item.status)}</div>
+            </div>
+            <div class="card-actions">
+              <button class="btn btn-secondary" data-action="editProperty" data-id="${item.id}" data-type="${item.type}">${t('edit')}</button>
+              <button class="btn btn-primary" data-action="quickBook" data-id="${item.id}" data-type="${item.type}">${t('bookNow')}</button>
+            </div>
+          </div>
+        </article>
+      `).join('') : `<div class="empty-state">${t('noData')}</div>`;
+    }
+
+    function renderApartments() {
+      const list = getFilteredApartments();
+      const grid = document.getElementById('apartmentsGrid');
+      grid.innerHTML = list.length ? list.map(item => `
+        <article class="property-card">
+          <div class="property-image">
+            <img src="${item.image}" alt="${item.title}" />
+            <span class="badge ${item.status}">${t(item.status)}</span>
+          </div>
+          <div class="property-body">
+            <div class="card-top">
+              <span>${item.type}</span>
+              <span>${item.rooms} ${t('rooms')}</span>
+            </div>
+            <h3 class="property-title">${item.title}</h3>
+            <div class="meta-row">
+              <span class="meta-pill">${item.address}</span>
+            </div>
+            <div class="price-row">
+              <div>
+                <div class="price">${formatCurrency(item.price)}</div>
+                <div class="price-right">${t('perDay')}</div>
+              </div>
+              <div class="price-right">${t(item.status)}</div>
+            </div>
+            <div class="card-actions">
+              <button class="btn btn-secondary" data-action="editProperty" data-id="${item.id}" data-type="${item.type}">${t('edit')}</button>
+              <button class="btn btn-primary" data-action="quickBook" data-id="${item.id}" data-type="${item.type}">${t('bookNow')}</button>
+            </div>
+          </div>
+        </article>
+      `).join('') : `<div class="empty-state">${t('noData')}</div>`;
+    }
+
+    function renderCalendar() {
+      const grid = document.getElementById('calendarGrid');
+      const days = [t('monday'), t('tuesday'), t('wednesday'), t('thursday'), t('friday'), t('saturday'), t('sunday')];
+      const today = new Date();
+      const first = new Date(today.getFullYear(), today.getMonth(), 1);
+      const startDay = first.getDay() === 0 ? 6 : first.getDay() - 1;
+      const totalDays = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+      const cells = [];
+
+      days.forEach(day => cells.push(`<div class="calendar-head">${day}</div>`));
+
+      for (let i = 0; i < startDay; i++) {
+        cells.push('<div class="day-cell" style="opacity:0.28"></div>');
+      }
+
+      for (let day = 1; day <= totalDays; day++) {
+        const date = new Date(today.getFullYear(), today.getMonth(), day);
+        const used = ((day + 1) % 3 === 0) ? 'occupied' : ((day + 2) % 5 === 0 ? 'maintenance' : 'available');
+        cells.push(`
+          <div class="day-cell">
+            <div class="day-number">${day}</div>
+            <span class="day-tag ${used}">${t(used)}</span>
+          </div>
+        `);
+      }
+
+      grid.innerHTML = cells.join('');
+    }
+
+    function renderInsightCards() {
+      const cards = [
+        { label: t('occupancy'), value: '68%', color: '#34d399' },
+        { label: t('profit'), value: formatCurrency(14600), color: '#7c3aed' },
+        { label: t('responseRate'), value: '96%', color: '#22c55e' },
+        { label: t('expiringSoon'), value: '12', color: '#f59e0b' }
+      ];
+      document.getElementById('insightCards').innerHTML = cards.map(card => `
+        <div class="stat-card glass">
+          <div class="top"><span>${card.label}</span><span style="color:${card.color};">●</span></div>
+          <div class="value">${card.value}</div>
+          <div class="trend"><span>↗</span><span>${t('reminderText')}</span></div>
+        </div>
+      `).join('');
+    }
+
+    function applyTranslations() {
+      document.documentElement.lang = state.lang;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (translations[state.lang] && translations[state.lang][key]) {
+          el.textContent = t(key);
+        }
+      });
+
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.dataset.i18nPlaceholder;
+        el.placeholder = t(key);
+      });
+
+      document.getElementById('languageSelect').value = state.lang;
+      document.title = 'ARENDATOR | ' + t('dashboardTitle');
+      renderStats();
+      renderCars();
+      renderApartments();
+      renderCalendar();
+      renderInsightCards();
+      updateBookingSummary();
+    }
+
+    function updateBookingSummary() {
+      const start = document.getElementById('bookingStart');
+      const end = document.getElementById('bookingEnd');
+      const summaryDays = document.getElementById('summaryDays');
+      const summaryCost = document.getElementById('summaryCost');
+      if (!start.value || !end.value) return;
+      const startDate = new Date(start.value);
+      const endDate = new Date(end.value);
+      const diff = Math.max(1, Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1);
+      const price = Number(document.getElementById('modalPrice').value || 0);
+      summaryDays.textContent = String(diff);
+      summaryCost.textContent = formatCurrency(diff * price);
+    }
+
+    function showFolderView(folder) {
+      const foldersView = document.getElementById('foldersView');
+      const fleetView = document.getElementById('fleet');
+      const apartmentView = document.getElementById('apartments');
+
+      foldersView.classList.remove('active');
+      fleetView.classList.remove('active');
+      apartmentView.classList.remove('active');
+
+      if (folder === 'cars') {
+        fleetView.classList.add('active');
+      } else if (folder === 'apartments') {
+        apartmentView.classList.add('active');
+      } else {
+        foldersView.classList.add('active');
+      }
+    }
+
+    function bindEvents() {
+      document.getElementById('languageSelect').addEventListener('change', (e) => {
+        state.lang = e.target.value;
+        localStorage.setItem('arendator-lang', state.lang);
+        applyTranslations();
+      });
+
+      document.getElementById('carSearch').addEventListener('input', (e) => {
+        state.filters.car.search = e.target.value;
+        renderCars();
+      });
+
+      document.getElementById('carStatusFilter').addEventListener('change', (e) => {
+        state.filters.car.status = e.target.value;
+        renderCars();
+      });
+
+      document.getElementById('carSort').addEventListener('change', (e) => {
+        state.filters.car.sort = e.target.value;
+        renderCars();
+      });
+
+      document.getElementById('apartmentSearch').addEventListener('input', (e) => {
+        state.filters.apartment.search = e.target.value;
+        renderApartments();
+      });
+
+      document.getElementById('apartmentStatusFilter').addEventListener('change', (e) => {
+        state.filters.apartment.status = e.target.value;
+        renderApartments();
+      });
+
+      document.getElementById('apartmentSort').addEventListener('change', (e) => {
+        state.filters.apartment.sort = e.target.value;
+        renderApartments();
+      });
+
+      document.getElementById('apartmentRoomsFilter').addEventListener('change', (e) => {
+        state.filters.apartment.rooms = e.target.value;
+        renderApartments();
+      });
+
+      document.getElementById('resetCars').addEventListener('click', () => {
+        state.filters.car = { search: '', status: 'all', sort: 'price-desc' };
+        document.getElementById('carSearch').value = '';
+        document.getElementById('carStatusFilter').value = 'all';
+        document.getElementById('carSort').value = 'price-desc';
+        renderCars();
+      });
+
+      document.getElementById('resetApartments').addEventListener('click', () => {
+        state.filters.apartment = { search: '', status: 'all', sort: 'price-desc', rooms: 'all' };
+        document.getElementById('apartmentSearch').value = '';
+        document.getElementById('apartmentStatusFilter').value = 'all';
+        document.getElementById('apartmentSort').value = 'price-desc';
+        document.getElementById('apartmentRoomsFilter').value = 'all';
+        renderApartments();
+      });
+
+      document.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-action]');
+        if (!button) return;
+
+        const action = button.dataset.action;
+        if (action === 'openFolder') {
+          showFolderView(button.dataset.folder);
+          return;
+        }
+
+        if (action === 'backToFolders') {
+          showFolderView('home');
+          return;
+        }
+
+        if (action === 'editProperty') {
+          const item = [...state.cars, ...state.apartments].find(x => x.id === button.dataset.id);
+          app.openModal(item.type, item);
+        }
+        if (action === 'quickBook') {
+          const item = [...state.cars, ...state.apartments].find(x => x.id === button.dataset.id);
+          app.openModal(item.type, item);
+        }
+        if (action === 'addProperty') {
+          app.openModal(button.dataset.type || 'car');
+        }
+        if (action === 'addEvent') {
+          app.addEvent();
+        }
+      });
+
+      document.getElementById('closeModal').addEventListener('click', app.closeModal);
+      document.getElementById('propertyModal').addEventListener('click', (e) => {
+        if (e.target.id === 'propertyModal') app.closeModal();
+      });
+
+      document.getElementById('savePropertyBtn').addEventListener('click', () => {
+        const type = document.getElementById('modalType').value;
+        const id = document.getElementById('propertyModal').dataset.editingId;
+        const title = document.getElementById('modalName').value.trim();
+        if (!title) {
+          alert(t('missingTitle'));
+          return;
+        }
+
+        const payload = {
+          id: id || crypto.randomUUID(),
+          type,
+          title,
+          status: document.getElementById('modalStatus').value,
+          price: Number(document.getElementById('modalPrice').value || 0),
+          image: document.getElementById('modalImage').value || 'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80',
+          model: document.getElementById('modalExtraOne').value || '',
+          address: type === 'apartment' ? document.getElementById('modalExtraTwo').value || '' : '',
+          plate: type === 'car' ? document.getElementById('modalExtraTwo').value || '' : '',
+          year: 2024,
+          rooms: type === 'apartment' ? Number(document.getElementById('modalExtraOne').value || 2) : 0,
+          make: type === 'car' ? 'Premium' : 'Apartment'
+        };
+
+        if (type === 'car') {
+          const existingIndex = state.cars.findIndex(item => item.id === payload.id);
+          if (existingIndex >= 0) state.cars[existingIndex] = { ...state.cars[existingIndex], ...payload, title: payload.title, model: payload.model, plate: payload.plate, price: payload.price, status: payload.status, image: payload.image };
+          else state.cars.unshift({ ...payload, make: payload.make, model: payload.model, plate: payload.plate, year: 2024 });
+        } else {
+          const existingIndex = state.apartments.findIndex(item => item.id === payload.id);
+          if (existingIndex >= 0) state.apartments[existingIndex] = { ...state.apartments[existingIndex], ...payload, title: payload.title, rooms: payload.rooms, address: payload.address, price: payload.price, status: payload.status, image: payload.image };
+          else state.apartments.unshift({ ...payload, title: payload.title, rooms: payload.rooms, address: payload.address, price: payload.price, status: payload.status, image: payload.image });
+        }
+
+        app.closeModal();
+        renderStats();
+        renderCars();
+        renderApartments();
+      });
+
+      document.getElementById('deletePropertyBtn').addEventListener('click', () => {
+        const id = document.getElementById('propertyModal').dataset.editingId;
+        if (!id) return;
+        const type = document.getElementById('modalType').value;
+        if (type === 'car') {
+          state.cars = state.cars.filter(item => item.id !== id);
+        } else {
+          state.apartments = state.apartments.filter(item => item.id !== id);
+        }
+        app.closeModal();
+        renderStats();
+        renderCars();
+        renderApartments();
+      });
+
+      document.getElementById('bookingStart').addEventListener('input', updateBookingSummary);
+      document.getElementById('bookingEnd').addEventListener('input', updateBookingSummary);
+      document.getElementById('modalPrice').addEventListener('input', updateBookingSummary);
+      document.getElementById('modalType').addEventListener('change', (e) => {
+        const type = e.target.value;
+        const title = type === 'car' ? t('modalNewCar') : t('modalNewApartment');
+        document.getElementById('modalTitle').textContent = title;
+        const statusOptions = document.getElementById('modalStatus');
+        if (type === 'car') {
+          statusOptions.innerHTML = `
+            <option value="available">${t('statusAvailable')}</option>
+            <option value="rented">${t('statusRented')}</option>
+            <option value="maintenance">${t('statusMaintenance')}</option>
+          `;
+          document.getElementById('labelExtraOne').textContent = t('fieldModel');
+          document.getElementById('labelExtraTwo').textContent = t('plate');
+        } else {
+          statusOptions.innerHTML = `
+            <option value="available">${t('statusAvailable')}</option>
+            <option value="occupied">${t('statusOccupied')}</option>
+          `;
+          document.getElementById('labelExtraOne').textContent = t('roomsLabel');
+          document.getElementById('labelExtraTwo').textContent = t('fieldLocation');
+        }
+      });
+    }
+
+    bindEvents();
+    applyTranslations();
+  </script>
+</body>
+</html>

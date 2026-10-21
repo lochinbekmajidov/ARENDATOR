@@ -1,0 +1,189 @@
+@using ARENDATOR.Web.Localization
+@using ARENDATOR.Web.Models
+@model ARENDATOR.Web.ViewModels.AdminDashboardViewModel
+@{
+    ViewData["Title"] = UiText.Get("RentalManagement");
+    var latestBookings = Model.RecentBookings.Take(4).ToList();
+}
+
+<section class="admin-shell">
+    <div class="admin-panel">
+        <aside class="admin-sidebar">
+            <div class="brand-row">
+                <div class="brand-mark">A</div>
+                <div>
+                    <div class="brand-name">ARENDATOR</div>
+                    <small>@UiText.Get("Dashboard")</small>
+                </div>
+            </div>
+
+            <nav class="admin-nav">
+                <a class="nav-item active" asp-controller="Admin" asp-action="Index">
+                    <span class="nav-icon"><i class="bi bi-grid-1x2-fill"></i></span>
+                    Dashboard
+                </a>
+                <a class="nav-item" asp-controller="Properties" asp-action="Apartments">
+                    <span class="nav-icon"><i class="bi bi-building"></i></span>
+                    Apartments
+                </a>
+                <a class="nav-item" asp-controller="Properties" asp-action="Cars">
+                    <span class="nav-icon"><i class="bi bi-car-front"></i></span>
+                    Cars
+                </a>
+                <a class="nav-item" asp-controller="Bookings" asp-action="OwnerQueue">
+                    <span class="nav-icon"><i class="bi bi-calendar3"></i></span>
+                    Rentals
+                </a>
+                <a class="nav-item" asp-controller="Admin" asp-action="Index">
+                    <span class="nav-icon"><i class="bi bi-wallet2"></i></span>
+                    Payments
+                </a>
+                <a class="nav-item" asp-controller="Admin" asp-action="Calendar">
+                    <span class="nav-icon"><i class="bi bi-calendar-week"></i></span>
+                    Availability Calendar
+                </a>
+                <a class="nav-item" asp-controller="Admin" asp-action="Index">
+                    <span class="nav-icon"><i class="bi bi-bell"></i></span>
+                    Notifications
+                </a>
+                <a class="nav-item" asp-controller="Admin" asp-action="Index">
+                    <span class="nav-icon"><i class="bi bi-bar-chart"></i></span>
+                    Reports
+                </a>
+                <a class="nav-item" asp-controller="Admin" asp-action="Index">
+                    <span class="nav-icon"><i class="bi bi-people"></i></span>
+                    Users and Roles
+                </a>
+                <a class="nav-item" asp-controller="Admin" asp-action="Index">
+                    <span class="nav-icon"><i class="bi bi-gear"></i></span>
+                    Website Settings
+                </a>
+                <a class="nav-item" asp-controller="Language" asp-action="SetLanguage" asp-route-culture="tj" asp-route-returnUrl="@Url.Action("Index","Admin")">
+                    <span class="nav-icon"><i class="bi bi-globe"></i></span>
+                    Language Settings
+                </a>
+                <a class="nav-item" asp-area="Identity" asp-page="/Account/Logout">
+                    <span class="nav-icon"><i class="bi bi-box-arrow-right"></i></span>
+                    Logout
+                </a>
+            </nav>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-toolbar">
+                <div class="toolbar-search">
+                    <i class="bi bi-search"></i>
+                    <input type="text" value="@UiText.Get("SearchHint")" aria-label="Search" />
+                </div>
+
+                <div class="toolbar-actions">
+                    <a asp-controller="Properties" asp-action="Create" class="toolbar-btn"><i class="bi bi-plus-lg"></i> @UiText.Get("AddProperty")</a>
+                    <div class="profile-chip">
+                        <div class="avatar">N</div>
+                        <span>@UiText.Get("Admin")</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard-header-row">
+                <div>
+                    <span class="section-kicker">@UiText.Get("Operations")</span>
+                    <h1>@UiText.Get("RentalManagement")</h1>
+                </div>
+                <a asp-controller="Properties" asp-action="Create" class="primary-btn">@UiText.Get("AddProperty")</a>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue"><i class="bi bi-house-door"></i></div>
+                    <div class="stat-copy">
+                        <span>@UiText.Get("Apartments")</span>
+                        <strong>@Model.Stats.TotalApartments</strong>
+                        <small>+@Math.Max(0, Model.Stats.TotalApartments - 2) @UiText.Get("RecentAvailability")</small>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green"><i class="bi bi-car-front"></i></div>
+                    <div class="stat-copy">
+                        <span>@UiText.Get("Cars")</span>
+                        <strong>@Model.Stats.TotalCars</strong>
+                        <small>+@Math.Max(0, Model.Stats.TotalCars - 2) @UiText.Get("RecentAvailability")</small>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple"><i class="bi bi-check-circle"></i></div>
+                    <div class="stat-copy">
+                        <span>@UiText.Get("Available")</span>
+                        <strong>@Model.Stats.AvailableProperties</strong>
+                        <small>@UiText.Get("Available")</small>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange"><i class="bi bi-exclamation-circle"></i></div>
+                    <div class="stat-copy">
+                        <span>@UiText.Get("Pending")</span>
+                        <strong>@Model.Stats.PendingPayments</strong>
+                        <small>@UiText.Get("Pending")</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <section class="panel property-panel">
+                    <div class="panel-header">
+                        <h2>@UiText.Get("Properties")</h2>
+                        <a asp-controller="Properties" asp-action="Create" class="small-btn">@UiText.Get("AddProperty")</a>
+                    </div>
+
+                    <div class="property-grid">
+                        @foreach (var property in Model.Properties.Take(6))
+                        {
+                            var statusClass = property.Status == PropertyStatus.Available ? "status-available" : property.Status == PropertyStatus.Maintenance ? "status-maintenance" : "status-rented";
+                            <article class="property-mini-card">
+                                <div class="property-image-wrap">
+                                    <img src="@(string.IsNullOrWhiteSpace(property.CoverImageUrl) ? "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80" : property.CoverImageUrl)" alt="@property.Title" />
+                                    <span class="mini-status @statusClass">@property.Status</span>
+                                </div>
+                                <div class="property-mini-body">
+                                    <h3>@property.Title</h3>
+                                    <p>@property.City</p>
+                                    <div class="property-meta-row">
+                                        <span>@property.Category</span>
+                                        <strong>$@property.PricePerDay</strong>
+                                    </div>
+                                </div>
+                            </article>
+                        }
+                    </div>
+                </section>
+
+                <aside class="panel side-panel">
+                    <div class="panel-header compact-header">
+                        <h2>@UiText.Get("RecentAvailability")</h2>
+                    </div>
+                    <ul class="activity-list">
+                        @foreach (var booking in latestBookings)
+                        {
+                            <li>
+                                <span class="activity-dot"></span>
+                                <div>
+                                    <strong>@(booking.Property?.Title ?? UiText.Get("Property"))</strong>
+                                    <small>@booking.CreatedAt.ToString("MMM dd")</small>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+
+                    <div class="panel-header compact-header mt-4">
+                        <h2>@UiText.Get("Operations")</h2>
+                    </div>
+                    <div class="quick-actions">
+                        <a asp-controller="Properties" asp-action="Create" asp-route-category="Apartment" class="quick-action">@UiText.Get("Apartments")</a>
+                        <a asp-controller="Properties" asp-action="Create" asp-route-category="Car" class="quick-action">@UiText.Get("Cars")</a>
+                        <a asp-controller="Admin" asp-action="Calendar" class="quick-action">@UiText.Get("Available")</a>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
+</section>

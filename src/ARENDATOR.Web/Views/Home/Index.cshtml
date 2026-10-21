@@ -1,0 +1,227 @@
+﻿```cshtml
+@using ARENDATOR.Web.Localization
+@{
+    ViewData["Title"] = UiText.Get("PremiumRentalPlatform");
+}
+
+<section class="hero-section">
+    <div class="container hero-container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <span class="eyebrow">@UiText.Get("PremiumRentalPlatform")</span>
+                <h1>@UiText.Get("Greeting")</h1>
+                <p class="hero-copy">ARENDATOR</p>
+
+                <div class="d-flex flex-wrap gap-3 mt-4">
+                    <a asp-controller="Properties" asp-action="Apartments" class="btn btn-primary btn-lg px-4">@UiText.Get("Apartments")</a>
+                    <a asp-controller="Properties" asp-action="Cars" class="btn btn-light btn-lg px-4">@UiText.Get("Cars")</a>
+                </div>
+
+                <div class="hero-metrics row g-3 mt-4">
+                    <div class="col-4">
+                        <div class="stat-box">
+                            <strong>1.2k+</strong>
+                            <span>@UiText.Get("PremiumRentalPlatform")</span>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="stat-box">
+                            <strong>94%</strong>
+                            <span>@UiText.Get("Featured")</span>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="stat-box accent">
+                            <strong>24/7</strong>
+                            <span>@UiText.Get("ManageRentals")</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="hero-panel">
+                    <div class="panel-top">
+                        <span class="live-pill"><i class="bi bi-circle-fill"></i> @UiText.Get("Home")</span>
+                        <span class="rating-pill"><i class="bi bi-star-fill"></i> 4.9/5</span>
+                    </div>
+
+                    <div class="showcase-card">
+                        <div class="showcase-image">
+                            <span>@UiText.Get("Apartment")</span>
+                        </div>
+                        <div class="showcase-meta">
+                            <div>
+                                <p class="meta-label">@UiText.Get("Featured")</p>
+                                <h3>Резиденсияи Skyline</h3>
+                            </div>
+                            <div class="price-block">
+                                <strong>180$</strong>
+                                <span>/ @UiText.Get("Day")</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mini-grid">
+                        <div class="mini-box">
+                            <i class="bi bi-house-door"></i>
+                            <div>
+                                <strong>3 @UiText.Get("Bedrooms")</strong>
+                                <span>@UiText.Get("Apartments")</span>
+                            </div>
+                        </div>
+                        <div class="mini-box">
+                            <i class="bi bi-car-front"></i>
+                            <div>
+                                <strong>BMW 5 Series</strong>
+                                <span>@UiText.Get("Cars")</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="trust-bar">
+    <div class="container">
+        <div class="trust-list">
+            <span>@UiText.Get("PremiumRentalPlatform")</span>
+            <span>@UiText.Get("Available")</span>
+            <span>@UiText.Get("Book")</span>
+            <span>@UiText.Get("Save")</span>
+        </div>
+    </div>
+</section>
+
+<section class="category-band">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow dark">@UiText.Get("Properties")</span>
+                <h2>@UiText.Get("FindYourPerfectProperty")</h2>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <a asp-controller="Properties" asp-action="Cars" class="category-card car-card">
+                    <div>
+                        <span class="pill">@UiText.Get("Cars")</span>
+                        <h3>@UiText.Get("Cars")</h3>
+                        <p>BMW, Mercedes, Range Rover</p>
+                    </div>
+                    <i class="bi bi-car-front"></i>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <a asp-controller="Properties" asp-action="Apartments" class="category-card apartment-card">
+                    <div>
+                        <span class="pill">@UiText.Get("Apartments")</span>
+                        <h3>@UiText.Get("Apartments")</h3>
+                        <p>@UiText.Get("Available")</p>
+                    </div>
+                    <i class="bi bi-building"></i>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <a asp-area="Identity" asp-page="/Account/Register" class="category-card neutral-card">
+                    <div>
+                        <span class="pill">@UiText.Get("Dashboard")</span>
+                        <h3>@UiText.Get("ListYourProperty")</h3>
+                        <p>@UiText.Get("ManageRentals")</p>
+                    </div>
+                    <i class="bi bi-graph-up-arrow"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content-section alt-section" id="featured">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow dark">@UiText.Get("Featured")</span>
+                <h2>@UiText.Get("BrowseRentals")</h2>
+            </div>
+            <a asp-controller="Properties" asp-action="Index" class="btn btn-outline-primary">@UiText.Get("BrowseAll")</a>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <article class="property-card">
+                    <div class="property-image-wrap">
+                        <img src="/images/cars/bmw5.jpg" alt="BMW 5 Series" onerror="this.src='https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=900&q=80';" />
+                        <span class="status-badge available">@UiText.Get("Available")</span>
+                    </div>
+                    <div class="property-body">
+                        <div class="meta-row">
+                            <span>@UiText.Get("Cars")</span>
+                            <span>Premium</span>
+                        </div>
+                        <h3>BMW 5 Series</h3>
+                        <p>Executive sedan</p>
+                        <div class="price-row">
+                            <strong>$115</strong>
+                            <span>/ @UiText.Get("Day")</span>
+                        </div>
+                        <div class="property-actions">
+                            <a asp-controller="Properties" asp-action="Index" class="btn btn-primary flex-fill">@UiText.Get("ViewDetails")</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <article class="property-card">
+                    <div class="property-image-wrap">
+                        <img src="/images/apartments/penthouse.jpg" alt="Penthouse apartment" onerror="this.src='https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80';" />
+                        <span class="status-badge available">@UiText.Get("Available")</span>
+                    </div>
+                    <div class="property-body">
+                        <div class="meta-row">
+                            <span>@UiText.Get("Apartments")</span>
+                            <span>2 @UiText.Get("Bedrooms")</span>
+                        </div>
+                        <h3>Downtown Penthouse</h3>
+                        <p>City apartment</p>
+                        <div class="price-row">
+                            <strong>$95</strong>
+                            <span>/ @UiText.Get("Day")</span>
+                        </div>
+                        <div class="property-actions">
+                            <a asp-controller="Properties" asp-action="Index" class="btn btn-primary flex-fill">@UiText.Get("ViewDetails")</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <article class="property-card">
+                    <div class="property-image-wrap">
+                        <img src="/images/cars/rangerover.jpg" alt="Range Rover" onerror="this.src='https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=80';" />
+                        <span class="status-badge rented">@UiText.Get("Rented")</span>
+                    </div>
+                    <div class="property-body">
+                        <div class="meta-row">
+                            <span>@UiText.Get("Cars")</span>
+                            <span>Luxury</span>
+                        </div>
+                        <h3>Range Rover Sport</h3>
+                        <p>Luxury SUV</p>
+                        <div class="price-row">
+                            <strong>$150</strong>
+                            <span>/ @UiText.Get("Day")</span>
+                        </div>
+                        <div class="property-actions">
+                            <a asp-controller="Properties" asp-action="Index" class="btn btn-primary flex-fill">@UiText.Get("ViewDetails")</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+
+```

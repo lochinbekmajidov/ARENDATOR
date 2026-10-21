@@ -1,0 +1,144 @@
+@using ARENDATOR.Web.Localization
+@model ARENDATOR.Web.Models.Property
+@{
+    ViewData["Title"] = UiText.Get("AddProperty");
+}
+
+<section class="content-section">
+    <div class="container narrow-container">
+        <h2 class="mb-4">@UiText.Get("AddPropertyTitle")</h2>
+
+        <form asp-action="Create" method="post" class="form-card">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="Title" class="form-label">@UiText.Get("Title")</label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Category" class="form-label">@UiText.Get("Category")</label>
+                    <select asp-for="Category" class="form-select" asp-items="Html.GetEnumSelectList<ARENDATOR.Web.Models.PropertyCategory>()"></select>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Status" class="form-label">@UiText.Get("Status")</label>
+                    <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<ARENDATOR.Web.Models.PropertyStatus>()"></select>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="LicensePlate" class="form-label">License plate</label>
+                    <input asp-for="LicensePlate" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="PricePerDay" class="form-label">@UiText.Get("PricePerDay")</label>
+                    <input asp-for="PricePerDay" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="City" class="form-label">@UiText.Get("City")</label>
+                    <input asp-for="City" class="form-control" />
+                </div>
+                <div class="col-12">
+                    <label asp-for="Description" class="form-label">@UiText.Get("Description")</label>
+                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Address" class="form-label">@UiText.Get("Address")</label>
+                    <input asp-for="Address" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Country" class="form-label">@UiText.Get("Country")</label>
+                    <input asp-for="Country" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Brand" class="form-label">@UiText.Get("Brand")</label>
+                    <input asp-for="Brand" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Model" class="form-label">@UiText.Get("Model")</label>
+                    <input asp-for="Model" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Year" class="form-label">@UiText.Get("Year")</label>
+                    <input asp-for="Year" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Transmission" class="form-label">@UiText.Get("Transmission")</label>
+                    <input asp-for="Transmission" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="FuelType" class="form-label">@UiText.Get("FuelType")</label>
+                    <input asp-for="FuelType" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Bedrooms" class="form-label">@UiText.Get("Bedrooms")</label>
+                    <input asp-for="Bedrooms" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Bathrooms" class="form-label">@UiText.Get("Bathrooms")</label>
+                    <input asp-for="Bathrooms" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="MaxGuests" class="form-label">@UiText.Get("Guests")</label>
+                    <input asp-for="MaxGuests" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="AreaSqMeters" class="form-label">Area (m²)</label>
+                    <input asp-for="AreaSqMeters" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Seats" class="form-label">Seats</label>
+                    <input asp-for="Seats" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="ApartmentType" class="form-label">Apartment type</label>
+                    <input asp-for="ApartmentType" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="CoverImageUrl" class="form-label">@UiText.Get("CoverImageUrl")</label>
+                    <input asp-for="CoverImageUrl" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="HasParking" class="form-label">Parking</label>
+                    <select asp-for="HasParking" class="form-select">
+                        <option value="">Select</option>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label asp-for="ImageUrls" class="form-label">@UiText.Get("ImageUrls")</label>
+                    <textarea asp-for="ImageUrls" class="form-control" rows="3" placeholder="https://example.com/1.jpg, https://example.com/2.jpg"></textarea>
+                </div>
+
+                <div class="col-12 mt-3">
+                    <h4 class="mb-3">@UiText.Get("ContactInfo")</h4>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="ContactName" class="form-label">@UiText.Get("ContactName")</label>
+                    <input asp-for="ContactName" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="ContactPhone" class="form-label">@UiText.Get("ContactPhone")</label>
+                    <input asp-for="ContactPhone" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="ContactEmail" class="form-label">@UiText.Get("ContactEmail")</label>
+                    <input asp-for="ContactEmail" class="form-control" />
+                </div>
+
+                <div class="col-12">
+                    <div class="form-check">
+                        <input asp-for="Featured" class="form-check-input" />
+                        <label asp-for="Featured" class="form-check-label">@UiText.Get("Featured")</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <button type="submit" class="btn btn-primary">@UiText.Get("SaveProperty")</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">@UiText.Get("Cancel")</a>
+            </div>
+        </form>
+    </div>
+</section>

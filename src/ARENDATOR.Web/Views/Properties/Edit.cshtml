@@ -1,0 +1,107 @@
+@model ARENDATOR.Web.Models.Property
+@{
+    ViewData["Title"] = "Edit Property";
+}
+
+<section class="content-section">
+    <div class="container narrow-container">
+        <h2 class="mb-4">Edit rental listing</h2>
+        <form asp-action="Edit" method="post" class="form-card">
+            @Html.AntiForgeryToken()
+            <input asp-for="Id" type="hidden" />
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="Title" class="form-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Category" class="form-label"></label>
+                    <select asp-for="Category" class="form-select" asp-items="Html.GetEnumSelectList<ARENDATOR.Web.Models.PropertyCategory>()"></select>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Status" class="form-label"></label>
+                    <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<ARENDATOR.Web.Models.PropertyStatus>()"></select>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="LicensePlate" class="form-label"></label>
+                    <input asp-for="LicensePlate" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="PricePerDay" class="form-label"></label>
+                    <input asp-for="PricePerDay" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="City" class="form-label"></label>
+                    <input asp-for="City" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Address" class="form-label"></label>
+                    <input asp-for="Address" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Country" class="form-label"></label>
+                    <input asp-for="Country" class="form-control" />
+                </div>
+                <div class="col-12">
+                    <label asp-for="Description" class="form-label"></label>
+                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Brand" class="form-label"></label>
+                    <input asp-for="Brand" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Model" class="form-label"></label>
+                    <input asp-for="Model" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Year" class="form-label"></label>
+                    <input asp-for="Year" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Transmission" class="form-label"></label>
+                    <input asp-for="Transmission" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Bedrooms" class="form-label"></label>
+                    <input asp-for="Bedrooms" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Bathrooms" class="form-label"></label>
+                    <input asp-for="Bathrooms" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="ApartmentType" class="form-label"></label>
+                    <input asp-for="ApartmentType" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="CoverImageUrl" class="form-label"></label>
+                    <input asp-for="CoverImageUrl" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="AreaSqMeters" class="form-label">Area (m²)</label>
+                    <input asp-for="AreaSqMeters" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Seats" class="form-label">Seats</label>
+                    <input asp-for="Seats" class="form-control" />
+                </div>
+                <div class="col-12">
+                    <label asp-for="ImageUrls" class="form-label">Photos</label>
+                    <textarea asp-for="ImageUrls" class="form-control" rows="3" placeholder="https://example.com/1.jpg, https://example.com/2.jpg"></textarea>
+                </div>
+                <div class="col-12">
+                    <div class="form-check">
+                        <input asp-for="Featured" class="form-check-input" />
+                        <label asp-for="Featured" class="form-check-label"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <button type="submit" class="btn btn-primary">Update</button>
+                <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Back</a>
+            </div>
+        </form>
+    </div>
+</section>

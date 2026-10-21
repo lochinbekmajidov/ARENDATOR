@@ -1,0 +1,63 @@
+@model IEnumerable<ARENDATOR.Web.Models.Booking>
+@{
+    ViewData["Title"] = "Owner Booking Queue";
+}
+
+<section class="content-section">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">Approvals</span>
+                <h2>Booking requests</h2>
+            </div>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="empty-state">
+                <h3>No booking requests right now.</h3>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Renter</th>
+                            <th>Dates</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var booking in Model)
+                        {
+                            <tr>
+                                <td>@booking.Property.Title</td>
+                                <td>@booking.Renter.Email</td>
+                                <td>@booking.StartDate.ToShortDateString() - @booking.EndDate.ToShortDateString()</td>
+                                <td>$@booking.TotalPrice</td>
+                                <td>@booking.Status</td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <form asp-action="Approve" asp-route-id="@booking.Id" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                                        </form>
+                                        <form asp-action="Reject" asp-route-id="@booking.Id" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-outline-danger btn-sm">Reject</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>

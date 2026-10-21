@@ -1,0 +1,68 @@
+@using ARENDATOR.Web.Models
+@using ARENDATOR.Web.Localization
+@model IEnumerable<Property>
+@{
+    ViewData["Title"] = UiText.Get("Cars");
+}
+
+<section class="page-hero compact-hero">
+    <div class="container">
+        <div class="page-hero-content">
+            <span class="eyebrow">@UiText.Get("Cars")</span>
+            <h1>@UiText.Get("Cars")</h1>
+            <p>@UiText.Get("Available")</p>
+        </div>
+    </div>
+</section>
+
+<section class="catalog-shell">
+    <div class="container">
+        <div class="toolbar-row mb-4">
+            <div></div>
+            @if (User.IsInRole("Owner") || User.IsInRole("Admin"))
+            {
+                <a asp-controller="Properties" asp-action="Create" asp-route-category="Car" class="btn btn-primary">@UiText.Get("AddCar")</a>
+            }
+        </div>
+
+        <div class="listing-grid">
+            @foreach (var property in Model)
+            {
+                var statusClass = property.Status == PropertyStatus.Available ? "status-available" : property.Status == PropertyStatus.Maintenance ? "status-maintenance" : "status-rented";
+                <article class="listing-card">
+                    <div class="listing-image-wrap">
+                        <img src="@(string.IsNullOrWhiteSpace(property.CoverImageUrl) ? "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=80" : property.CoverImageUrl)" alt="@property.Title" />
+                        <span class="status-pill @statusClass">@property.Status</span>
+                    </div>
+                    <div class="listing-body">
+                        <div class="meta-row">
+                            <span class="meta-pill">@UiText.Get("Cars")</span>
+                            <span class="meta-pill muted">@property.City</span>
+                        </div>
+                        <h3>@property.Title</h3>
+                        <p class="location-line"><i class="bi bi-geo-alt"></i> @property.Address</p>
+                        <div class="facts-row">
+                            <span><i class="bi bi-gear"></i> @property.Transmission</span>
+                            <span><i class="bi bi-fuel-pump"></i> @property.FuelType</span>
+                            <span><i class="bi bi-people"></i> @property.Seats seats</span>
+                        </div>
+                        <div class="listing-bottom">
+                            <div class="price-box">
+                                <span>@UiText.Get("From")</span>
+                                <strong>$@property.PricePerDay</strong>
+                                <small>/@UiText.Get("Day")</small>
+                            </div>
+                            <div class="d-flex gap-2 flex-fill">
+                                <a asp-controller="Properties" asp-action="Details" asp-route-id="@property.Id" class="btn btn-primary flex-fill">@UiText.Get("ViewDetails")</a>
+                                @if (User.IsInRole("Owner") || User.IsInRole("Admin"))
+                                {
+                                    <a asp-controller="Properties" asp-action="Edit" asp-route-id="@property.Id" class="btn btn-outline-primary">Edit</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            }
+        </div>
+    </div>
+</section>

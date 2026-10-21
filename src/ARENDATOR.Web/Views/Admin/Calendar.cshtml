@@ -1,0 +1,126 @@
+@model ARENDATOR.Web.ViewModels.AvailabilityCalendarViewModel
+@{
+    ViewData["Title"] = "Availability Calendar";
+    var monthStart = new DateTime(Model.ReferenceDate.Year, Model.ReferenceDate.Month, 1);
+    var daysInMonth = DateTime.DaysInMonth(monthStart.Year, monthStart.Month);
+    var firstWeekday = (int)monthStart.DayOfWeek;
+    var cells = new List<DateTime>();
+
+    var calendarStart = monthStart.AddDays(-firstWeekday);
+    for (var i = 0; i < 42; i++)
+    {
+        cells.Add(calendarStart.AddDays(i));
+    }
+}
+
+<section class="content-section">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">Planning</span>
+                <h2>Availability calendar</h2>
+            </div>
+            <div class="d-flex gap-2">
+                <a asp-action="Index" class="btn btn-outline-primary">Dashboard</a>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <form asp-action="AddAvailabilityPeriod" method="post" class="row g-3 align-items-end">
+                    @Html.AntiForgeryToken()
+                    <div class="col-md-4">
+                        <label class="form-label">Property</label>
+                        <select name="propertyId" class="form-select" required>
+                            @foreach (var property in Model.Properties)
+                            {
+                                <option value="@property.Id">@property.Title (@property.Category)</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Start date</label>
+                        <input type="date" name="startDate" class="form-control" required />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">End date</label>
+                        <input type="date" name="endDate" class="form-control" required />
+                    </div>
+                    <div class="col-md-2 d-grid">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="mb-0">@monthStart.ToString("MMMM yyyy")</h3>
+                    <div class="d-flex gap-2">
+                        <a asp-action="Calendar" asp-route-month="@monthStart.AddMonths(-1).ToString("yyyy-MM-dd")" class="btn btn-sm btn-outline-secondary">Previous</a>
+                        <a asp-action="Calendar" asp-route-month="@monthStart.AddMonths(1).ToString("yyyy-MM-dd")" class="btn btn-sm btn-outline-secondary">Next</a>
+                    </div>
+                </div>
+
+                <div class="row text-center fw-semibold text-muted mb-2">
+                    <div class="col">Sun</div>
+                    <div class="col">Mon</div>
+                    <div class="col">Tue</div>
+                    <div class="col">Wed</div>
+                    <div class="col">Thu</div>
+                    <div class="col">Fri</div>
+                    <div class="col">Sat</div>
+                </div>
+
+                <div class="row g-2">
+                    @foreach (var date in cells)
+                    {
+                        var isCurrentMonth = date.Month == monthStart.Month;
+                        var isToday = date.Date == DateTime.UtcNow.Date;
+                        var dayPeriods = Model.AvailabilityPeriods
+                            .Where(ap => ap.StartDate.Date <= date.Date && ap.EndDate.Date >= date.Date)
+                            .Take(2)
+                            .ToList();
+
+                        <div class="col" style="min-width: 120px;">
+                            <div class="border rounded p-2 h-100 @(isCurrentMonth ? "bg-white" : "bg-light") @(isToday ? "border-primary" : "")" style="min-height: 120px;">
+                                <div class="small text-muted mb-2">@date.Day</div>
+                                @if (dayPeriods.Any())
+                                {
+                                    foreach (var period in dayPeriods)
+                                    {
+                                        <div class="small rounded px-2 py-1 mb-1 @(period.IsOccupied ? "bg-danger-subtle text-danger" : "bg-success-subtle text-success")">
+                                            @period.Property.Title
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive form-card">
+            <h3>Current occupancy periods</h3>
+            <table class="table table-hover">
+                <thead>
+                    <tr><th>Property</th><th>Type</th><th>Start</th><th>End</th><th>Notes</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var period in Model.AvailabilityPeriods.OrderBy(p => p.StartDate))
+                    {
+                        <tr>
+                            <td>@period.Property.Title</td>
+                            <td>@period.Property.Category</td>
+                            <td>@period.StartDate.ToString("dd.MM.yyyy")</td>
+                            <td>@period.EndDate.ToString("dd.MM.yyyy")</td>
+                            <td>@period.Notes</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
